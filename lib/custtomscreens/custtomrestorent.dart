@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:wegast/screens/pizza.dart';
+import 'package:wegast/screens/restaurantMenu.dart';
 import 'package:wegast/utils/notifirecolor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +9,9 @@ class CusttomRestaurant extends StatefulWidget {
   final String? image;
   final String? title;
   final String? subtitle;
-  const CusttomRestaurant(this.image, this.title, this.subtitle, {Key? key})
+  final int? id;
+  const CusttomRestaurant(this.image, this.title, this.subtitle, this.id,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Pizza(),
+            builder: (context) => restaurantMenu(),
           ),
         );
       },
@@ -84,6 +86,7 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
                 SizedBox(height: height / 70),
                 Text(
                   widget.title!,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: notifier.getblackcolor,
                       fontSize: height / 50,
@@ -91,25 +94,13 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
                 ),
                 Text(
                   widget.subtitle!,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: notifier.getgrey,
                       fontSize: height / 60,
                       fontFamily: 'GilroyMedium'),
                 ),
                 SizedBox(height: height / 70),
-                Row(
-                  children: [
-                    Icon(Icons.star,
-                        size: height / 40, color: notifier.getstarcolor),
-                    Icon(Icons.star,
-                        size: height / 40, color: notifier.getstarcolor),
-                    Icon(Icons.star,
-                        size: height / 40, color: notifier.getstarcolor),
-                    Icon(Icons.star,
-                        size: height / 40, color: notifier.getstarcolor),
-                    SizedBox(width: width / 12),
-                  ],
-                ),
               ],
             )
           ],
@@ -138,6 +129,7 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
           ),
           Text(
             txt,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: height / 70,
               color: notifier.getred,

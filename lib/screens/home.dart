@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wegast/controllers/user_controller.dart';
 import 'package:get/get.dart';
+import 'package:wegast/custtomscreens/custtomexplorecaterories.dart';
 import 'package:wegast/custtomscreens/custtomrestorent.dart';
 import 'package:wegast/models/items_models.dart';
 import 'package:wegast/models/restaurant_model.dart';
+import 'package:wegast/screens/bottombar/profilesetting.dart';
 import 'package:wegast/screens/homeseeall/nearbyrestorent.dart';
 import 'package:wegast/screens/restorentdeal.dart';
 import 'package:wegast/utils/enstring.dart';
@@ -76,6 +78,7 @@ class _HomePageState extends State<HomePage> {
         bottom: false,
         child: Column(
           children: [
+            SizedBox(height: height / 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -84,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(width: width / 20),
+                        SizedBox(width: width / 17),
                         Text(
                           'Hello ${userController.user.value.username},',
                           style: TextStyle(
@@ -112,20 +115,20 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => const ProfileSetting(),
-                //       ),
-                //     );
-                //   },
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(right: 20),
-                //     child: Image.asset("assets/Buy.png", height: 25),
-                //   ),
-                // ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileSetting(),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Image.asset("assets/profile.png", height: 25),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: height / 40),
@@ -133,259 +136,101 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Customsearchtextfild.textField(
-                    //     LanguageEn.searchfordish,
-                    //     notifier.getblackcolor,
-                    //     width / 1.13,
-                    //     notifier.getbgfildcolor),
-                    // SizedBox(height: height / 40),
-                    // Container(
-                    //   color: Colors.transparent,
-                    //   height: height / 5,
-                    //   child: ListView.builder(
-                    //     itemCount: 1,
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemBuilder: (context, index) {
-                    //       return GestureDetector(
-                    //         onTap: () {
-                    //           Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //               builder: (context) => const Pizza(),
-                    //             ),
-                    //           );
-                    //         },
-                    //         child: Row(
-                    //           children: [
-                    //             SizedBox(width: width / 18),
-                    //             Image.asset("assets/d.png"),
-                    //             SizedBox(width: width / 20),
-                    //             Image.asset("assets/e.png"),
-                    //             SizedBox(width: width / 20),
-                    //             Image.asset("assets/d1.png"),
-                    //             SizedBox(width: width / 20),
-                    //             Image.asset("assets/s.png"),
-                    //             SizedBox(width: width / 20),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(height: height / 40),
+                    Container(
+                      color: Colors.transparent,
+                      height: height / 5,
+                      child: ListView.builder(
+                        itemCount: 1,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => const Pizza(),
+                              //   ),
+                              // );
+                            },
+                            child: Row(
+                              children: [
+                                SizedBox(width: width / 18),
+                                Image.asset("assets/wegast-slide-04.png"),
+                                SizedBox(width: width / 20),
+                                Image.asset("assets/wegast-slide-03.png"),
+                                SizedBox(width: width / 20),
+                                Image.asset("assets/wegast-slide-01.png"),
+                                SizedBox(width: width / 20),
+                                Image.asset("assets/wegast-slide-02.png"),
+                                SizedBox(width: width / 20),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
 
-                    // SizedBox(height: height / 40),
-                    // Explore Categories
-                    // Row(
-                    //   children: [
-                    //     SizedBox(width: width / 20),
-                    //     Text(
-                    //       LanguageEn.explorecategories,
-                    //       style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize: height / 45,
-                    //           fontFamily: 'GilroyBold'),
-                    //     ),
-                    //     const Spacer(),
-                    //     GestureDetector(
-                    //       onTap: () => Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) => const Categories(),
-                    //         ),
-                    //       ),
-                    //       child: Text(
-                    //         LanguageEn.showall,
-                    //         style: TextStyle(
-                    //             color: notifier.getred,
-                    //             fontSize: height / 55,
-                    //             fontFamily: 'GilroyMedium'),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: width / 18),
-                    //   ],
-                    // ),
-                    // SizedBox(height: height / 100),
-                    // Container(
-                    //   color: Colors.transparent,
-                    //   height: height / 5,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 1,
-                    //     itemBuilder: (context, index) {
-                    //       return Row(
-                    //         children: [
-                    //           SizedBox(width: width / 20),
-                    //           ExploreCategories("assets/f1.png",
-                    //               LanguageEn.milkshake, height / 9),
-                    //           SizedBox(width: width / 60),
-                    //           ExploreCategories("assets/f2.png",
-                    //               LanguageEn.omelette, height / 9),
-                    //           SizedBox(width: width / 60),
-                    //           ExploreCategories("assets/f3.png",
-                    //               LanguageEn.tomatosup, height / 9),
-                    //           SizedBox(width: width / 60),
-                    //           ExploreCategories("assets/pizza.png",
-                    //               LanguageEn.shake, height / 9),
-                    //           SizedBox(width: width / 60),
-                    //         ],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                    // Popular Near you
-                    // Row(
-                    //   children: [
-                    //     SizedBox(width: width / 20),
-                    //     Text(
-                    //       LanguageEn.popularnearyou,
-                    //       style: TextStyle(
-                    //           color: Colors.black,
-                    //           fontSize: height / 45,
-                    //           fontFamily: 'GilroyBold'),
-                    //     ),
-                    //     const Spacer(),
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => const PopularViewMore(),
-                    //           ),
-                    //         );
-                    //       },
-                    //       child: Text(
-                    //         LanguageEn.viewmore,
-                    //         style: TextStyle(
-                    //             color: notifier.getred,
-                    //             fontSize: height / 55,
-                    //             fontFamily: 'GilroyMedium'),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: width / 18),
-                    //   ],
-                    // ),
-                    // SizedBox(height: height / 80),
-                    // Container(
-                    //   color: Colors.transparent,
-                    //   height: height / 3,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 1,
-                    //     itemBuilder: (context, index) {
-                    //       return Row(
-                    //         children: [
-                    //           SizedBox(width: width / 20),
-                    //           CusttomPopularfoodlist(
-                    //               "assets/bfood.jpg",
-                    //               height / 3,
-                    //               width / 1.3,
-                    //               height / 5,
-                    //               width / 1.3,
-                    //               width / 5.7,
-                    //               LanguageEn.mayo),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomPopularfoodlist(
-                    //               "assets/cake.jpg",
-                    //               height / 3,
-                    //               width / 1.3,
-                    //               height / 5,
-                    //               width / 1.3,
-                    //               width / 5.7,
-                    //               LanguageEn.atul),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomPopularfoodlist(
-                    //               "assets/bfood.jpg",
-                    //               height / 3,
-                    //               width / 1.3,
-                    //               height / 5,
-                    //               width / 1.3,
-                    //               width / 5.7,
-                    //               LanguageEn.burgerking),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomPopularfoodlist(
-                    //               "assets/cake.jpg",
-                    //               height / 3,
-                    //               width / 1.3,
-                    //               height / 5,
-                    //               width / 1.3,
-                    //               width / 5.7,
-                    //               LanguageEn.monginis),
-                    //           SizedBox(width: width / 31),
-                    //         ],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                    // SizedBox(height: height / 80),
-                    // Recommended
-                    // Row(
-                    //   children: [
-                    //     SizedBox(width: width / 20),
-                    //     Text(
-                    //       LanguageEn.recommended,
-                    //       style: TextStyle(
-                    //         color: Colors.black,
-                    //         fontSize: height / 45,
-                    //         fontFamily: 'GilroyBold',
-                    //       ),
-                    //     ),
-                    //     const Spacer(),
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => const RecommendedSeeall(),
-                    //           ),
-                    //         );
-                    //       },
-                    //       child: Text(
-                    //         LanguageEn.showall,
-                    //         style: TextStyle(
-                    //             color: notifier.getred,
-                    //             fontSize: height / 55,
-                    //             fontFamily: 'GilroyMedium'),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: width / 18),
-                    //   ],
-                    // ),
-                    // SizedBox(height: height / 80),
-                    // Container(
-                    //   color: Colors.transparent,
-                    //   height: height / 2.3,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 1,
-                    //     itemBuilder: (context, index) {
-                    //       return Row(
-                    //         children: [
-                    //           SizedBox(width: width / 20),
-                    //           CusttomRecommended(
-                    //               "assets/bfood.jpg",
-                    //               LanguageEn.burgerkings,
-                    //               LanguageEn.westernburgerfast),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomRecommended(
-                    //               "assets/cake.jpg",
-                    //               LanguageEn.monginis,
-                    //               LanguageEn.westernburgerfast),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomRecommended(
-                    //               "assets/bfood.jpg",
-                    //               LanguageEn.mayo,
-                    //               LanguageEn.westernburgerfast),
-                    //           SizedBox(width: width / 31),
-                    //           CusttomRecommended(
-                    //               "assets/cake.jpg",
-                    //               LanguageEn.atul,
-                    //               LanguageEn.westernburgerfast),
-                    //           SizedBox(width: width / 31),
-                    //         ],
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(height: height / 40),
+                    Row(
+                      children: [
+                        SizedBox(width: width / 20),
+                        Text(
+                          LanguageEn.explorecategories,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: height / 45,
+                              fontFamily: 'GilroyBold'),
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () => {
+                            //   Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const Categories(),
+                            //   ),
+                            // ),
+                          },
+                          child: Text(
+                            LanguageEn.showall,
+                            style: TextStyle(
+                                color: notifier.getred,
+                                fontSize: height / 55,
+                                fontFamily: 'GilroyMedium'),
+                          ),
+                        ),
+                        SizedBox(width: width / 18),
+                      ],
+                    ),
+                    SizedBox(height: height / 100),
+                    Container(
+                      color: Colors.transparent,
+                      height: height / 5,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 1,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              SizedBox(width: width / 20),
+                              ExploreCategories("assets/f1.png",
+                                  LanguageEn.milkshake, height / 9),
+                              SizedBox(width: width / 60),
+                              ExploreCategories("assets/f2.png",
+                                  LanguageEn.omelette, height / 9),
+                              SizedBox(width: width / 60),
+                              ExploreCategories("assets/f3.png",
+                                  LanguageEn.tomatosup, height / 9),
+                              SizedBox(width: width / 60),
+                              ExploreCategories("assets/pizza.png",
+                                  LanguageEn.shake, height / 9),
+                              SizedBox(width: width / 60),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
                     SizedBox(height: height / 55),
                     Obx(() {
                       return ListView.builder(
@@ -485,12 +330,11 @@ class _HomePageState extends State<HomePage> {
                           if (imageUrl.isNotEmpty) {
                             imageUrl = imageUrl.substring(1);
                           }
-
                           return CusttomRestaurant(
-                            baseUrl + imageUrl,
-                            restaurantData.name ?? '',
-                            restaurantData.email ?? '',
-                          );
+                              baseUrl + imageUrl,
+                              restaurantData.name ?? '',
+                              restaurantData.email ?? '',
+                              restaurants[index].id ?? 0);
                         },
                       );
                     }),

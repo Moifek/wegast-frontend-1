@@ -24,14 +24,13 @@ class _ExploreCategoriesState extends State<ExploreCategories> {
     if (previusstate == null) {
       notifier.setIsDark = false;
     } else {
-      notifier.setIsDark = previusstate;
+      notifier.setIsDark = false;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    getdarkmodepreviousstate();
   }
 
   @override

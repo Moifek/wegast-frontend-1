@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'orderconfirmation.dart';
 
-class Pizza extends StatefulWidget {
-  const Pizza({Key? key}) : super(key: key);
+class restaurantMenu extends StatefulWidget {
+  const restaurantMenu({Key? key}) : super(key: key);
 
   @override
-  State<Pizza> createState() => _PizzaState();
+  State<restaurantMenu> createState() => _PizzaState();
 }
 
-class _PizzaState extends State<Pizza> with TickerProviderStateMixin {
+class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
   late ColorNotifier notifier;
   late TabController _tabController;
   getdarkmodepreviousstate() async {
@@ -156,177 +156,169 @@ class _PizzaState extends State<Pizza> with TickerProviderStateMixin {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 15, right: 15),
-                        decoration: BoxDecoration(
-                          color: notifier.getbgcolor,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TabBar(
-                              dividerColor: Colors.black,
-                              indicatorColor: notifier.getred,
-                              labelColor: notifier.getred,
-                              unselectedLabelColor: Colors.black,
-                              controller: _tabController,
-                              tabs: const <Widget>[
-                                Tab(
-                                  text: 'Delivery',
-                                ),
-                                Tab(
-                                  text: 'Menu',
-                                ),
-                                Tab(
-                                  text: 'Review',
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 250,
-                              child: TabBarView(
-                                  controller: _tabController,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            'Burger King',
-                                            style: TextStyle(
-                                                fontFamily: 'GilroyBold',
-                                                fontSize: 15,
-                                                color: notifier.getblackcolor),
-                                          ),
-                                          subtitle: Text(
-                                            'Western cuisine, Fast Food Burger',
-                                            style: TextStyle(
-                                                fontFamily: 'GilroyMedium',
-                                                fontSize: 10,
-                                                color: notifier.getgrey),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              star(),
-                                              SizedBox(
-                                                height: 25,
-                                                child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemCount: 2,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Container(
-                                                      height: 25,
-                                                      width:
-                                                          index == 0 ? 60 : 50,
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        color: Colors.grey
-                                                            .withOpacity(0.4),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 8),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceAround,
-                                                          children: [
-                                                            Image.asset(
-                                                              img[index],
-                                                              height: 15,
-                                                              width: 15,
-                                                              color: notifier
-                                                                  .getred,
-                                                            ),
-                                                            Text(
-                                                              text[index],
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'GilroyBold',
-                                                                  fontSize: 10,
-                                                                  color: notifier
-                                                                      .getred),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                            child: delivery(
-                                                text:
-                                                    'Freeship within 5km: Enter code Freeship')),
-                                        Expanded(
-                                            child: delivery(
-                                                text:
-                                                    '30% off on all menu items')),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 250,
-                                          child: ListView.separated(
-                                            scrollDirection: Axis.vertical,
-                                            itemCount: food.length,
-                                            itemBuilder: (context, index) {
-                                              return ListTile(
-                                                leading:
-                                                    Image.asset(food[index]),
-                                                title: Text(foodname[index]),
-                                              );
-                                            },
-                                            separatorBuilder: (context, index) {
-                                              return Divider(
-                                                indent: 15,
-                                                endIndent: 15,
-                                                height: 10,
-                                                thickness: 1,
-                                                color: Colors.grey,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        review("assets/p3.png",
-                                            LanguageFr.harrydaniels),
-                                        review("assets/p4.png",
-                                            LanguageFr.harrydaniels),
-                                      ],
-                                    ),
-                                  ]),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 15, right: 15),
+                      //   decoration: BoxDecoration(
+                      //     color: notifier.getbgcolor,
+                      //     borderRadius: BorderRadius.circular(16),
+                      //   ),
+                      //   child: Column(
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       TabBar(
+                      //         dividerColor: Colors.black,
+                      //         indicatorColor: notifier.getred,
+                      //         labelColor: notifier.getred,
+                      //         unselectedLabelColor: Colors.black,
+                      //         controller: _tabController,
+                      //         tabs: const <Widget>[
+                      //           Tab(
+                      //             text: 'Delivery',
+                      //           ),
+                      //           Tab(
+                      //             text: 'Menu',
+                      //           ),
+                      //           Tab(
+                      //             text: 'Review',
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       SizedBox(
+                      //         height: 250,
+                      //         child: TabBarView(
+                      //             controller: _tabController,
+                      //             children: [
+                      //               Column(
+                      //                 children: [
+                      //                   ListTile(
+                      //                     title: Text(
+                      //                       'Burger King',
+                      //                       style: TextStyle(
+                      //                           fontFamily: 'GilroyBold',
+                      //                           fontSize: 15,
+                      //                           color: notifier.getblackcolor),
+                      //                     ),
+                      //                     subtitle: Text(
+                      //                       'Western cuisine, Fast Food Burger',
+                      //                       style: TextStyle(
+                      //                           fontFamily: 'GilroyMedium',
+                      //                           fontSize: 10,
+                      //                           color: notifier.getgrey),
+                      //                     ),
+                      //                   ),
+                      //                   Padding(
+                      //                     padding: const EdgeInsets.all(8.0),
+                      //                     child: Row(
+                      //                       mainAxisAlignment:
+                      //                           MainAxisAlignment.spaceBetween,
+                      //                       children: [
+                      //                         star(),
+                      //                         SizedBox(
+                      //                           height: 25,
+                      //                           child: ListView.builder(
+                      //                             shrinkWrap: true,
+                      //                             scrollDirection:
+                      //                                 Axis.horizontal,
+                      //                             itemCount: 2,
+                      //                             itemBuilder:
+                      //                                 (context, index) {
+                      //                               return Container(
+                      //                                 height: 25,
+                      //                                 width:
+                      //                                     index == 0 ? 60 : 50,
+                      //                                 margin:
+                      //                                     EdgeInsets.symmetric(
+                      //                                         horizontal: 10),
+                      //                                 decoration: BoxDecoration(
+                      //                                   borderRadius:
+                      //                                       BorderRadius
+                      //                                           .circular(8),
+                      //                                   color: Colors.grey
+                      //                                       .withOpacity(0.4),
+                      //                                 ),
+                      //                                 child: Padding(
+                      //                                   padding:
+                      //                                       const EdgeInsets
+                      //                                           .symmetric(
+                      //                                           horizontal: 8),
+                      //                                   child: Row(
+                      //                                     mainAxisAlignment:
+                      //                                         MainAxisAlignment
+                      //                                             .spaceAround,
+                      //                                     children: [
+                      //                                       Image.asset(
+                      //                                         img[index],
+                      //                                         height: 15,
+                      //                                         width: 15,
+                      //                                         color: notifier
+                      //                                             .getred,
+                      //                                       ),
+                      //                                       Text(
+                      //                                         text[index],
+                      //                                         style: TextStyle(
+                      //                                             fontFamily:
+                      //                                                 'GilroyBold',
+                      //                                             fontSize: 10,
+                      //                                             color: notifier
+                      //                                                 .getred),
+                      //                                       ),
+                      //                                     ],
+                      //                                   ),
+                      //                                 ),
+                      //                               );
+                      //                             },
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //               Column(
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.start,
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                 children: [
+                      //                   SizedBox(
+                      //                     height: 250,
+                      //                     child: ListView.separated(
+                      //                       scrollDirection: Axis.vertical,
+                      //                       itemCount: food.length,
+                      //                       itemBuilder: (context, index) {
+                      //                         return ListTile(
+                      //                           leading:
+                      //                               Image.asset(food[index]),
+                      //                           title: Text(foodname[index]),
+                      //                         );
+                      //                       },
+                      //                       separatorBuilder: (context, index) {
+                      //                         return Divider(
+                      //                           indent: 15,
+                      //                           endIndent: 15,
+                      //                           height: 10,
+                      //                           thickness: 1,
+                      //                           color: Colors.grey,
+                      //                         );
+                      //                       },
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //               Column(
+                      //                 children: [
+                      //                   review("assets/p3.png",
+                      //                       LanguageFr.harrydaniels),
+                      //                   review("assets/p4.png",
+                      //                       LanguageFr.harrydaniels),
+                      //                 ],
+                      //               ),
+                      //             ]),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(height: height / 70),
                       Container(
                         height: MediaQuery.of(context).size.height,
@@ -340,16 +332,16 @@ class _PizzaState extends State<Pizza> with TickerProviderStateMixin {
                               unselectedLabelColor: Colors.black,
                               tabs: <Widget>[
                                 Tab(
+                                  text: 'Makloub',
+                                ),
+                                Tab(
                                   text: 'Pizza',
                                 ),
                                 Tab(
-                                  text: 'Pasta&Rice',
+                                  text: 'Sandwich',
                                 ),
                                 Tab(
-                                  text: 'Drink',
-                                ),
-                                Tab(
-                                  text: 'Special',
+                                  text: 'Dessert',
                                 ),
                               ],
                             ),

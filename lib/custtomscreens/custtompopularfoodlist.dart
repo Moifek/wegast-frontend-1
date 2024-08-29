@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wegast/screens/pizza.dart';
+import 'package:wegast/screens/restaurantMenu.dart';
 import 'package:wegast/screens/restorentdeal.dart';
 import 'package:wegast/utils/enstring.dart';
 import 'package:wegast/utils/mediaqury.dart';
@@ -53,7 +53,7 @@ class _CusttomPopularfoodlistState extends State<CusttomPopularfoodlist> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Pizza(),
+            builder: (context) => restaurantMenu(),
           ),
         );
       },

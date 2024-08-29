@@ -104,6 +104,7 @@ class _NearByRestaurantState extends State<NearByRestaurant> {
                   baseUrl + imageUrl,
                   restaurantData.name ?? '',
                   restaurantData.email ?? '',
+                  restaurants[index].id ?? 0,
                 );
               },
             );

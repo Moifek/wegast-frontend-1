@@ -13,6 +13,7 @@ class Customtextfild {
         ),
       ),
       child: TextField(
+        readOnly: true,
         style: TextStyle(color: textcolor),
         decoration: InputDecoration(
           fillColor: fillcolor,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wegast/screens/pizza.dart';
+import 'package:wegast/screens/restaurantMenu.dart';
 import 'package:wegast/utils/mediaqury.dart';
 import 'package:wegast/utils/notifirecolor.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +45,7 @@ class _CusttomRecommendedState extends State<CusttomRecommended> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const Pizza(),
+            builder: (context) => const restaurantMenu(),
           ),
         );
       },
@@ -132,7 +132,7 @@ class _CusttomRecommendedState extends State<CusttomRecommended> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Pizza(),
+            builder: (context) => restaurantMenu(),
           ),
         );
       },

@@ -32,6 +32,7 @@ class Restaurant {
 }
 
 class Attributes {
+  int? id;
   String? name;
   String? email;
   int? phoneNumber;
@@ -53,6 +54,7 @@ class Attributes {
   });
 
   Attributes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['Name'];
     email = json['Email'];
     phoneNumber = json['PhoneNumber'];

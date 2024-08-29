@@ -61,7 +61,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
                       color: notifier.getwhite,
                     ),
                   ),
-                  SizedBox(width: width / 4),
                   Text(
                     LanguageFr.profilesetting,
                     style: TextStyle(
@@ -75,14 +74,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Text(
-                      LanguageFr.done,
-                      style: TextStyle(
-                        color: notifier.getwhite,
-                        fontSize: height / 45,
-                        fontFamily: 'GilroyMedium',
-                      ),
-                    ),
+                    child: Spacer(),
                   ),
                   SizedBox(width: width / 20),
                 ],
@@ -108,12 +100,8 @@ class _ProfileSettingState extends State<ProfileSetting> {
           ),
           Column(
             children: [
-              SizedBox(height: height / 5),
               Center(
-                child: Image.asset(
-                  "assets/p3.png",
-                  height: height / 6.9,
-                ),
+                child: SizedBox(height: height / 3),
               ),
               SizedBox(height: height / 25),
               Customtextfild.textField(
@@ -130,12 +118,12 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   Icons.email,
                   notifier.getbgfildcolor),
               SizedBox(height: height / 4.3),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: button(notifier.getred, notifier.getwhite,
-                      LanguageFr.save, width / 1.1))
+              // GestureDetector(
+              //     onTap: () {
+              //       Navigator.pop(context);
+              //     },
+              //     child: button(notifier.getred, notifier.getwhite,
+              //         LanguageFr.save, width / 1.1))
             ],
           ),
         ],
