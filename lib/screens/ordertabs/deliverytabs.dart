@@ -72,9 +72,13 @@ class _DeliverytabsState extends State<Deliverytabs> {
                       ),
                     ),
                     child: Container(
-                      height: height / 8,
+                      height: height / 10,
                       color: Colors.transparent,
-                      child: Center(child: Text('Go to My Orders')),
+                      child: Center(
+                          child: Text(
+                        'Go to My Orders',
+                        style: TextStyle(color: notifier.getblackcolor),
+                      )),
                     ),
                   );
                 }

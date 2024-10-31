@@ -35,6 +35,22 @@ class ApiCalls {
     }
   }
 
+  fetchCategories(String restaurantName) async {
+    try {
+      final response = await http.get(Uri.parse(
+          baseUrl + "api/item-categories?restaurants.name=" + restaurantName));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+
+        return data;
+      } else {
+        throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> validateOrder(int orderId, int dasherId) async {
     final url = Uri.parse(
         baseUrl + 'api/order/validate?order=$orderId&dasher=$dasherId');

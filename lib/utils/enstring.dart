@@ -582,10 +582,9 @@ class LanguageFr {
 
   static String get special => "Spécial";
 
-  static String get cheesy => "Trio de bouchées au fromage aux crevettes";
+  static String get cheesy => "Trio de bouchées au fromage";
 
-  static String get shrimponion =>
-      "Crevettes, oignon, capsicum rouge,\nananas, olive noire, persil";
+  static String get shrimponion => "Crevettes, oignon";
 
   static String get myorder => "Ma commande";
 

@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:wegast/custtomscreens/custtombutton.dart';
 import 'package:wegast/custtomscreens/custtomfooditeam.dart';
 import 'package:wegast/custtomscreens/custtomgriadeiteam.dart';
+import 'package:wegast/models/items_models.dart';
 import 'package:wegast/utils/enstring.dart';
 import 'package:wegast/utils/mediaqury.dart';
 import 'package:wegast/utils/notifirecolor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wegast/web_services.dart';
 
 import 'orderconfirmation.dart';
 
 class restaurantMenu extends StatefulWidget {
-  const restaurantMenu({Key? key}) : super(key: key);
+  final String? restaurantName;
+  const restaurantMenu({Key? key, this.restaurantName}) : super(key: key);
 
   @override
-  State<restaurantMenu> createState() => _PizzaState();
+  State<restaurantMenu> createState() => restaurantMenuState();
 }
 
-class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
+class restaurantMenuState extends State<restaurantMenu>
+    with TickerProviderStateMixin {
   late ColorNotifier notifier;
   late TabController _tabController;
   getdarkmodepreviousstate() async {
@@ -30,11 +34,24 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
     }
   }
 
+  final List<String> tabNames = [];
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     getdarkmodepreviousstate();
+    fetchCategories(widget.restaurantName!);
+  }
+
+  fetchCategories(String restaurantName) async {
+    var tmp = await ApiCalls().fetchCategories(restaurantName);
+    var data = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
+    setState(() {
+      tabNames.clear();
+      tabNames.addAll(data.map((item) => item.attributes.name));
+      _tabController = TabController(length: tabNames.length, vsync: this);
+    });
   }
 
   int selectedindex = -1;
@@ -42,21 +59,12 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
   String filterbydropdownvalue = 'Open';
   double _currentSliderValue = 20;
   bool hide = false;
-  var items = [
-    'Best match',
-    'Low match',
-    'High match',
-  ];
   var filterbyitems = [
     'Open',
     'Close',
   ];
   List locationlist = [
-    "Bronx",
-    "Brooklyn",
-    "Samara river city",
-    "Manhattan",
-    "Staten island",
+    "Nabeul",
     "near me",
   ];
   List img = [
@@ -77,6 +85,13 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
     'Drink',
     'Dessert',
   ];
+
+  List<CusttomFoodIteam> foodItems = [
+    CusttomFoodIteam("assets/pizzachicago.jpg", LanguageFr.cheesy),
+    CusttomFoodIteam("assets/Salad.png", LanguageFr.margarita),
+    CusttomFoodIteam("assets/pizzachicago.jpg", LanguageFr.sevenchess),
+    CusttomFoodIteam("assets/Salad.png", LanguageFr.calzne),
+  ];
   bool like = false;
   bool count = false;
   bool counttwo = false;
@@ -87,7 +102,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
     width = MediaQuery.of(context).size.width;
     notifier = Provider.of<ColorNotifier>(context, listen: true);
     return DefaultTabController(
-      length: 4,
+      length: tabNames.length,
       initialIndex: 0,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -134,7 +149,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
                   ),
                   child: Center(
                       child: Text(
-                    '10',
+                    '0',
                     style: TextStyle(fontFamily: 'GilroyBold', fontSize: 15),
                   )),
                 ),
@@ -150,7 +165,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
           color: Colors.transparent,
           child: Stack(
             children: [
-              Image.asset('assets/bfood.jpg'),
+              Image.asset('assets/wegast-slide-00.png'),
               Padding(
                 padding: const EdgeInsets.only(top: 80),
                 child: SingleChildScrollView(
@@ -330,29 +345,16 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
                               indicatorColor: notifier.getred,
                               labelColor: notifier.getred,
                               unselectedLabelColor: Colors.black,
-                              tabs: <Widget>[
-                                Tab(
-                                  text: 'Makloub',
-                                ),
-                                Tab(
-                                  text: 'Pizza',
-                                ),
-                                Tab(
-                                  text: 'Sandwich',
-                                ),
-                                Tab(
-                                  text: 'Dessert',
-                                ),
-                              ],
+                              tabs: tabNames
+                                  .map((name) => Tab(text: name))
+                                  .toList(),
                             ),
                             SizedBox(
                               height: height / 1.1,
-                              child: TabBarView(children: [
-                                tabbarview(),
-                                tabbarview(),
-                                tabbarview(),
-                                tabbarview(),
-                              ]),
+                              child: TabBarView(
+                                children:
+                                    tabNames.map((_) => tabbarview()).toList(),
+                              ),
                             ),
                           ],
                         ),
@@ -570,7 +572,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
           Row(
             children: [
               SizedBox(width: width / 20),
-              Container(
+              /*Container(
                 height: height / 20,
                 width: width / 3.4,
                 decoration: BoxDecoration(
@@ -604,7 +606,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
                     });
                   },
                 ),
-              ),
+              ),*/
               const Spacer(),
               GestureDetector(
                 onTap: () {
@@ -635,7 +637,7 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
                 ),
               ),
               SizedBox(width: width / 40),
-              GestureDetector(
+              /*GestureDetector(
                 onTap: () {
                   filtershowmodelbottomsheet();
                 },
@@ -654,11 +656,10 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
                     size: height / 35,
                   ),
                 ),
-              ),
+              ),*/
               SizedBox(width: width / 20),
             ],
           ),
-          SizedBox(height: height / 50),
           if (hide == true)
             Container(
                 color: Colors.transparent,
@@ -700,20 +701,23 @@ class _PizzaState extends State<restaurantMenu> with TickerProviderStateMixin {
           else
             Container(
               color: Colors.transparent,
-              child: Column(
-                children: [
-                  SizedBox(height: height / 50),
-                  CusttomFoodIteam(
-                      "assets/pizzachicago.jpg", LanguageFr.cheesy),
-                  SizedBox(height: height / 100),
-                  CusttomFoodIteam("assets/Salad.png", LanguageFr.margarita),
-                  SizedBox(height: height / 100),
-                  CusttomFoodIteam(
-                      "assets/pizzachicago.jpg", LanguageFr.sevenchess),
-                  SizedBox(height: height / 100),
-                  CusttomFoodIteam("assets/Salad.png", LanguageFr.calzne),
-                  SizedBox(height: height / 5),
-                ],
+              child: ListView.builder(
+                shrinkWrap: true, // To fit the ListView inside a Column
+                itemCount: foodItems.length +
+                    1, // Add 1 for the extra SizedBox at the end
+                itemBuilder: (context, index) {
+                  if (index == foodItems.length) {
+                    return SizedBox(
+                        height: height / 5); // Extra spacing at the end
+                  }
+                  final foodItem = foodItems[index];
+                  return Column(
+                    children: [
+                      SizedBox(height: height / 100),
+                      CusttomFoodIteam(foodItem.image, foodItem.name),
+                    ],
+                  );
+                },
               ),
             )
         ],

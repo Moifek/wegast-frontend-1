@@ -7,6 +7,7 @@ import 'package:wegast/custtomscreens/custtomrestorent.dart';
 import 'package:wegast/models/items_models.dart';
 import 'package:wegast/models/restaurant_model.dart';
 import 'package:wegast/screens/bottombar/profilesetting.dart';
+import 'package:wegast/screens/homeseeall/explorecategories.dart';
 import 'package:wegast/screens/homeseeall/nearbyrestorent.dart';
 import 'package:wegast/screens/restorentdeal.dart';
 import 'package:wegast/utils/enstring.dart';
@@ -185,12 +186,12 @@ class _HomePageState extends State<HomePage> {
                         const Spacer(),
                         GestureDetector(
                           onTap: () => {
-                            //   Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Categories(),
-                            //   ),
-                            // ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Categories(),
+                              ),
+                            ),
                           },
                           child: Text(
                             LanguageEn.showall,
@@ -214,14 +215,14 @@ class _HomePageState extends State<HomePage> {
                           return Row(
                             children: [
                               SizedBox(width: width / 20),
-                              ExploreCategories("assets/f1.png",
-                                  LanguageEn.milkshake, height / 9),
+                              ExploreCategories(
+                                  "assets/f1.png", 'Makloub', height / 9),
                               SizedBox(width: width / 60),
-                              ExploreCategories("assets/f2.png",
-                                  LanguageEn.omelette, height / 9),
+                              ExploreCategories(
+                                  "assets/f2.png", 'Hamburger', height / 9),
                               SizedBox(width: width / 60),
-                              ExploreCategories("assets/f3.png",
-                                  LanguageEn.tomatosup, height / 9),
+                              ExploreCategories(
+                                  "assets/f3.png", 'Pizza', height / 9),
                               SizedBox(width: width / 60),
                               ExploreCategories("assets/pizza.png",
                                   LanguageEn.shake, height / 9),
@@ -231,57 +232,6 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                     ),
-                    SizedBox(height: height / 55),
-                    Obx(() {
-                      return ListView.builder(
-                        itemCount: items.length,
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final item = items[index];
-                          final name = item.attributes.name;
-                          final imageUrl = item.attributes.image.data.isNotEmpty
-                              ? item.attributes.image.data.first.attributes.url
-                                  .substring(1)
-                              : null;
-
-                          // Extract description text from the Description model
-                          final descriptionText =
-                              item.attributes.description.isNotEmpty
-                                  ? item.attributes.description.first.children
-                                      .map((child) => child.text)
-                                      .join(' ')
-                                  : '';
-                          return ListTile(
-                            title: Text(
-                              name,
-                              style: TextStyle(color: Colors.orange),
-                            ),
-                            subtitle: Text(
-                              descriptionText,
-                            ),
-                            leading: imageUrl != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Container(
-                                      margin: EdgeInsets.all(
-                                          4.0), // Add margin around the image
-                                      width: 100, // Set the width of the image
-                                      height:
-                                          100, // Set the height of the image
-                                      child: Image.network(
-                                        '$baseUrl$imageUrl',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )
-                                : null,
-                          );
-                        },
-                      );
-                    }),
-
                     SizedBox(height: height / 55),
                     // Near by Restorent
                     Row(

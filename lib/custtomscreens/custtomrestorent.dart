@@ -49,7 +49,10 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => restaurantMenu(),
+            builder: (context) => restaurantMenu(
+              key: null,
+              restaurantName: widget.title,
+            ),
           ),
         );
       },
@@ -73,9 +76,6 @@ class _CusttomRestaurantState extends State<CusttomRestaurant> {
                       height: height / 8.6,
                       width: width / 4,
                       fit: BoxFit.cover,
-                      // errorBuilder: (context, error, stackTrace) {
-                      //   return Icon(Icons.error, color: Colors.red);
-                      // },
                     )
                   : Icon(Icons.image, size: height / 8.6),
             ),

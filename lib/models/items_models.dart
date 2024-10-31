@@ -51,8 +51,8 @@ class ItemAttributes {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime publishedAt;
-  final Image1 image;
-  final Restaurant1 restaurant;
+  // final Image1 image;
+  // final Restaurant1 restaurant;
 
   ItemAttributes({
     required this.name,
@@ -61,20 +61,23 @@ class ItemAttributes {
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
-    required this.image,
-    required this.restaurant,
+    // required this.image,
+    // required this.restaurant,
   });
 
   factory ItemAttributes.fromJson(Map<String, dynamic> json) {
     return ItemAttributes(
       name: json['Name'],
-      description: json['Description'],
-      price: json['Price'],
+      description: (json['Description'] as List?)
+              ?.map((item) => Description.fromJson(item))
+              .toList() ??
+          [],
+      price: json['Price'] ?? 0,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       publishedAt: DateTime.parse(json['publishedAt']),
-      image: Image1.fromJson(json['Image']),
-      restaurant: Restaurant1.fromJson(json['restaurant']),
+      //image: Image1.fromJson(json['Image']),
+      //restaurant: Restaurant1.fromJson(json['restaurants']),
     );
   }
 
@@ -86,8 +89,8 @@ class ItemAttributes {
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'publishedAt': publishedAt.toIso8601String(),
-      'Image': image.toJson(),
-      'restaurant': restaurant.toJson(),
+      // 'Image': image.toJson(),
+      // 'restaurant': restaurant.toJson(),
     };
   }
 }
