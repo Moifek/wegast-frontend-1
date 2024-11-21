@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
               children: [
                 SizedBox(width: width / 20),
                 Text(
-                  LanguageEn.myprofile,
+                  LanguageFr.myprofile,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: height / 22,
@@ -71,7 +71,7 @@ class _ProfileState extends State<Profile> {
                   MaterialPageRoute(
                     builder: (context) => YourOrder(),
                   )),
-              child: profiletype("assets/Bag.png", LanguageEn.myporder),
+              child: profiletype("assets/Bag.png", LanguageFr.myporder),
             ),
             SizedBox(height: height / 30),
             GestureDetector(
@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
                     builder: (context) => ProfileSetting(),
                   )),
               child:
-                  profiletype("assets/Setting.png", LanguageEn.profilesetting),
+                  profiletype("assets/Setting.png", LanguageFr.profilesetting),
             ),
             // SizedBox(height: height / 30),
             // GestureDetector(
@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
             //         builder: (context) => Notifications('Promocodes'),
             //       )),
             //   child: profiletype(
-            //       "assets/Ticket.png", LanguageEn.discountsandpromocodes),
+            //       "assets/Ticket.png", LanguageFr.discountsandpromocodes),
             // ),
             // SizedBox(height: height / 30),
             // GestureDetector(
@@ -101,7 +101,7 @@ class _ProfileState extends State<Profile> {
             //         builder: (context) => Notifications('Notifications'),
             //       )),
             //   child: profiletype(
-            //       "assets/Notification.png", LanguageEn.notifications),
+            //       "assets/Notification.png", LanguageFr.notifications),
             // ),
             SizedBox(height: height / 30),
             GestureDetector(
@@ -109,7 +109,7 @@ class _ProfileState extends State<Profile> {
                   FlutterShare.share(title: 'Example share text...');
                 },
                 child:
-                    profiletype("assets/invite.png", LanguageEn.invitefriend)),
+                    profiletype("assets/invite.png", LanguageFr.invitefriend)),
             SizedBox(height: height / 30),
             GestureDetector(
                 onTap: () => Navigator.push(
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> {
                       builder: (context) => Loream('About us',
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
                     )),
-                child: profiletype("assets/about.png", LanguageEn.aboutus)),
+                child: profiletype("assets/about.png", LanguageFr.aboutus)),
             SizedBox(height: height / 30),
             GestureDetector(
                 onTap: () => Navigator.push(
@@ -127,7 +127,7 @@ class _ProfileState extends State<Profile> {
                       builder: (context) => Loream('FAQs',
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
                     )),
-                child: profiletype("assets/Paper.png", LanguageEn.faq)),
+                child: profiletype("assets/Paper.png", LanguageFr.faq)),
             // SizedBox(height: height / 30),
             // GestureDetector(
             //     onTap: () => Navigator.push(
@@ -137,7 +137,7 @@ class _ProfileState extends State<Profile> {
             //               "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
             //         )),
             //     child: profiletype(
-            //         "assets/teams.png", LanguageEn.teamsandcontiotion)),
+            //         "assets/teams.png", LanguageFr.teamsandcontiotion)),
             SizedBox(height: height / 30),
             GestureDetector(
                 onTap: () => Navigator.push(
@@ -146,7 +146,7 @@ class _ProfileState extends State<Profile> {
                       builder: (context) => Loream('Help Center',
                           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
                     )),
-                child: profiletype("assets/Call.png", LanguageEn.helpcenter)),
+                child: profiletype("assets/Call.png", LanguageFr.helpcenter)),
             // SizedBox(height: height / 30),
             // darkmode(),
             SizedBox(height: height / 30),
@@ -154,7 +154,7 @@ class _ProfileState extends State<Profile> {
               onTap: () {
                 userController.logout();
               },
-              child: profiletype("assets/Logout.png", LanguageEn.logout),
+              child: profiletype("assets/Logout.png", LanguageFr.logout),
             ),
           ],
         ),
@@ -212,7 +212,7 @@ class _ProfileState extends State<Profile> {
           ),
           SizedBox(width: width / 20),
           Text(
-            LanguageEn.darkmode,
+            LanguageFr.darkmode,
             style: TextStyle(
               fontSize: height / 50,
               fontFamily: 'GilroyMedium',

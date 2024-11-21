@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wegast/utils/mediaqury.dart';
 import 'package:wegast/utils/notifirecolor.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _LoreamState extends State<Loream> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(
             Icons.arrow_back_ios,

@@ -22,9 +22,10 @@ class _CreateAccountState extends State<CreateAccount> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   bool isChecked = false;
-
+  String validationMessage = "";
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
     bool? previusstate = prefs.getBool("setIsDark");
@@ -46,7 +47,6 @@ class _CreateAccountState extends State<CreateAccount> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     notifier = Provider.of<ColorNotifier>(context, listen: true);
-
     return Scaffold(
       backgroundColor: notifier.getbgcolor,
       body: SingleChildScrollView(
@@ -210,6 +210,50 @@ class _CreateAccountState extends State<CreateAccount> {
                 obscureText: true,
               ),
             ),
+            SizedBox(height: height / 40),
+            Row(
+              children: [
+                SizedBox(width: width / 20),
+                Text(
+                  "Télephone",
+                  style: TextStyle(
+                    color: notifier.getgrey,
+                    fontSize: height / 50,
+                    fontFamily: 'GilroyMedium',
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: height / 50),
+            Container(
+              width: width / 1.1,
+              child: TextField(
+                controller: phoneController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "Saisser votre numéro de téléphone",
+                  prefixIcon: Icon(Icons.phone_android_outlined,
+                      color: notifier.getblackcolor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: notifier.getbgfildcolor,
+                ),
+                obscureText: true,
+                onChanged: (value) {
+                  setState(() {
+                    if (value.length != 8 ||
+                        !RegExp(r'^\d+$').hasMatch(value)) {
+                      validationMessage =
+                          "Le numéro doit contenir exactement 8 chiffres.";
+                    } else {
+                      validationMessage = "";
+                    }
+                  });
+                },
+              ),
+            ),
             SizedBox(height: height / 20),
             Obx(() {
               if (registrationController.isLoading.value) {
@@ -224,6 +268,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       emailController.text,
                       usernameController.text,
                       passwordController.text,
+                      phoneController.text,
                     );
                   },
                   child: button(

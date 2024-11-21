@@ -26,6 +26,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
   }
 
   Future<void> fetchOrders() async {
+    print('fetching orders');
     await ordersController.fetchOrders();
   }
 
@@ -44,7 +45,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     notifier = Provider.of<ColorNotifier>(context, listen: true);
-
+    final orders = ordersController.orders;
     return Scaffold(
       backgroundColor: notifier.getwhite,
       body: FutureBuilder<void>(
@@ -59,7 +60,6 @@ class _DeliverytabsState extends State<Deliverytabs> {
           }
 
           return Obx(() {
-            final orders = ordersController.orders;
             return ListView.builder(
               itemCount: orders.length + 1,
               itemBuilder: (context, index) {
@@ -85,7 +85,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
 
                 final order = orders[index];
                 final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss')
-                    .format(order.attributes.createdAt);
+                    .format(order.attributes!.createdAt!);
 
                 return Card(
                   elevation: 5,
@@ -108,7 +108,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Price: ${order.attributes.totalPrice} ${order.attributes.currency}',
+                          'Total Price: ${order.attributes?.totalPrice} ${order.attributes?.currency}',
                           style: TextStyle(
                             color: Colors.white70,
                             fontSize: 16,
@@ -123,7 +123,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
                           ),
                         ),
                         Text(
-                          'Order Status: ${order.attributes.orderStatus}',
+                          'Order Status: ${order.attributes?.orderStatus}',
                           style: TextStyle(
                             color: Colors.white70,
                             fontSize: 14,

@@ -9,8 +9,8 @@ class RegistrationController extends GetxController {
   var isLoading = false.obs;
   static final String baseUrl = dotenv.env['BASE_URL'] ?? '';
 
-  Future<void> register(
-      String name, String email, String username, String password) async {
+  Future<void> register(String name, String email, String username,
+      String password, String phoneNumber) async {
     isLoading.value = true;
 
     try {
@@ -21,6 +21,7 @@ class RegistrationController extends GetxController {
           'email': email,
           'username': username,
           'password': password,
+          'PhoneNumber': phoneNumber
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -31,8 +32,9 @@ class RegistrationController extends GetxController {
         var data = jsonDecode(response.body);
         if (data['jwt'] != null) {
           Get.snackbar('Success', 'Registration successful');
-          await Future.delayed(Duration(seconds: 2));
-          showRoleSelectionDialog(data['jwt']);
+          // await Future.delayed(Duration(seconds: 2));
+          // showRoleSelectionDialog(data['jwt']);
+          Get.offNamed('/');
         } else {
           Get.snackbar('Error', 'Registration failed: No JWT received');
         }
@@ -62,18 +64,18 @@ class RegistrationController extends GetxController {
         actions: [
           CupertinoDialogAction(
             child: Text('Dasher'),
-            onPressed: () => updateUserRole(jwt, 'dasher'),
+            onPressed: () => updateUserRole(jwt, 1),
           ),
           CupertinoDialogAction(
             child: Text('User'),
-            onPressed: () => updateUserRole(jwt, 'user'),
+            onPressed: () => updateUserRole(jwt, 0),
           ),
         ],
       ),
     );
   }
 
-  Future<void> updateUserRole(String jwt, String role) async {
+  Future<void> updateUserRole(String jwt, int role) async {
     try {
       final response = await http.put(
         Uri.parse(baseUrl + 'api/users/me?populate=*'),

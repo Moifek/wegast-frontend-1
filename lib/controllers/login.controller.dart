@@ -60,7 +60,7 @@ class LoginController extends GetxController {
           'Content-Type': 'application/json',
         },
       );
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var userDetails = jsonDecode(response.body);
 

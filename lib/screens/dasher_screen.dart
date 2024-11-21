@@ -30,26 +30,26 @@ class DasherScreen extends StatelessWidget {
           return Center(child: Text('Failed to load orders'));
         }
 
-        final List<OrderData> orderPlacedOrders =
+        final List<OrderData> visibleOrders =
             ordersController.orderPlacedOrders;
 
-        if (orderPlacedOrders.isEmpty) {
+        if (visibleOrders.isEmpty) {
           return Center(child: Text('No orders available.'));
         }
 
         return ListView.builder(
-          itemCount: orderPlacedOrders.length,
+          itemCount: visibleOrders.length,
           itemBuilder: (context, index) {
-            final order = orderPlacedOrders[index];
+            final order = visibleOrders[index];
             return ListTile(
               title: Text('Order ID: ${order.id}'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      'Total Price: ${order.attributes.totalPrice} ${order.attributes.currency}'),
-                  Text('Discount: ${order.attributes.discount}'),
-                  Text('Order Status: ${order.attributes.orderStatus}'),
+                      'Total Price: ${order.attributes?.totalPrice} ${order.attributes?.currency}'),
+                  Text('Discount: ${order.attributes?.discount}'),
+                  Text('Order Status: ${order.attributes?.orderStatus}'),
                 ],
               ),
               onTap: () {

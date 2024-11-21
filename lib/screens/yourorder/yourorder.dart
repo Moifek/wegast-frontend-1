@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wegast/screens/ordertabs/deliverytabs.dart';
 import 'package:wegast/screens/ordertabs/history.dart';
 import 'package:wegast/utils/enstring.dart';
@@ -44,7 +45,7 @@ class _YourOrderState extends State<YourOrder> {
         backgroundColor: notifier.getwhite,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(Icons.arrow_back_ios,
               color: Colors.black, size: height / 40),

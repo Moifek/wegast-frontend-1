@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wegast/custtomscreens/custtomrecommended.dart';
 import 'package:wegast/utils/enstring.dart';
 import 'package:wegast/utils/mediaqury.dart';
@@ -44,7 +45,7 @@ class _RecommendedSeeallState extends State<RecommendedSeeall> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(
             Icons.arrow_back_ios,

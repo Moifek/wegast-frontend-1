@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wegast/custtomscreens/custtombutton.dart';
 import 'package:wegast/custtomscreens/textfild.dart';
 import 'package:wegast/utils/enstring.dart';
@@ -43,7 +44,7 @@ class _AddressState extends State<Address> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(
             Icons.arrow_back_ios,

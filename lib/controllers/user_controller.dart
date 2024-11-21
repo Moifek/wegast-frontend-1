@@ -11,6 +11,7 @@ class UserController extends GetxController {
     confirmed: false,
     blocked: false,
     createdAt: DateTime.now(),
+    phoneNumber: 0,
     updatedAt: DateTime.now(),
   ).obs;
 
@@ -28,6 +29,7 @@ class UserController extends GetxController {
       blocked: false,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      phoneNumber: 0,
     );
 
     Get.offNamed('/');

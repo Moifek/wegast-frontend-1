@@ -43,7 +43,8 @@ class _NearByRestaurantState extends State<NearByRestaurant> {
 
   handleItems() async {
     var tmp;
-    tmp = await ApiCalls().fetchItems();
+    //TODO:
+    //tmp = await ApiCalls().fetchItems();
     items.value = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
   }
 
@@ -66,7 +67,7 @@ class _NearByRestaurantState extends State<NearByRestaurant> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(
             Icons.arrow_back_ios,
@@ -75,7 +76,7 @@ class _NearByRestaurantState extends State<NearByRestaurant> {
           ),
         ),
         title: Text(
-          LanguageEn.nearbyRestaurant,
+          LanguageFr.nearbyRestaurant,
           style: TextStyle(
               color: notifier.getblackcolor,
               fontSize: height / 45,

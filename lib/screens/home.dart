@@ -32,7 +32,9 @@ class _HomePageState extends State<HomePage> {
   RxList<Restaurant> restaurants = <Restaurant>[].obs;
   RxList<Restaurant> recommendedRestaurants = <Restaurant>[].obs;
   RxList<ItemData> items = <ItemData>[].obs;
+  late SharedPreferences _prefs;
 
+  bool _isKeySet = false;
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
     bool? previusstate = prefs.getBool("setIsDark");
@@ -54,7 +56,8 @@ class _HomePageState extends State<HomePage> {
 
   handleItems() async {
     var tmp;
-    tmp = await ApiCalls().fetchItems();
+    //TODO:
+    //tmp = await ApiCalls().fetchItems();
     items.value = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
   }
 
@@ -63,6 +66,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getdarkmodepreviousstate();
     handleRestaurants();
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isKeySet = _prefs.getBool('skipIntro') ?? false;
+      });
+    });
     handleItems();
   }
 
@@ -177,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         SizedBox(width: width / 20),
                         Text(
-                          LanguageEn.explorecategories,
+                          LanguageFr.explorecategories,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: height / 45,
@@ -194,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           },
                           child: Text(
-                            LanguageEn.showall,
+                            LanguageFr.showall,
                             style: TextStyle(
                                 color: notifier.getred,
                                 fontSize: height / 55,
@@ -225,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                                   "assets/f3.png", 'Pizza', height / 9),
                               SizedBox(width: width / 60),
                               ExploreCategories("assets/pizza.png",
-                                  LanguageEn.shake, height / 9),
+                                  LanguageFr.shake, height / 9),
                               SizedBox(width: width / 60),
                             ],
                           );
@@ -253,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           child: Text(
-                            LanguageEn.showall,
+                            LanguageFr.showall,
                             style: TextStyle(
                                 color: notifier.getred,
                                 fontSize: height / 55,

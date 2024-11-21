@@ -20,10 +20,14 @@ class ApiCalls {
     }
   }
 
-  fetchItems() async {
+  fetchItems(String restaurantName, String category) async {
     try {
-      final response =
-          await http.get(Uri.parse(baseUrl + 'api/items?populate=*'));
+      final response = await http.get(Uri.parse(baseUrl +
+          "api/items?populate=*&restaurants.name=" +
+          restaurantName +
+          "&item_category.name=" +
+          category));
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body)['data'];
         return data;
@@ -57,7 +61,6 @@ class ApiCalls {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      print('Order  validated successfully');
     } else {
       throw Exception('Failed to validate order $orderId');
     }

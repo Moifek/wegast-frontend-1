@@ -79,7 +79,7 @@ class _HistorytabsState extends State<Historytabs> {
           //       ),
           //       SizedBox(height: height / 50),
           //       CusttomDeliverdOrder(
-          //           "assets/foodmenu.png", LanguageEn.steakbeet, "23 tnd"),
+          //           "assets/foodmenu.png", LanguageFr.steakbeet, "23 tnd"),
           //       SizedBox(height: height / 50),
           //       Row(
           //         children: [
@@ -121,7 +121,7 @@ class _HistorytabsState extends State<Historytabs> {
           //       ),
           //       SizedBox(height: height / 50),
           //       CusttomDeliverdOrder(
-          //           "assets/pizzachicago.jpg", LanguageEn.hambuger, "23 tnd"),
+          //           "assets/pizzachicago.jpg", LanguageFr.hambuger, "23 tnd"),
           //       SizedBox(height: height / 50),
           //       Row(
           //         children: [
@@ -163,7 +163,7 @@ class _HistorytabsState extends State<Historytabs> {
           //       ),
           //       SizedBox(height: height / 50),
           //       CusttomDeliverdOrder(
-          //           "assets/foodmenu.png", LanguageEn.steakbeet, "23 tnd"),
+          //           "assets/foodmenu.png", LanguageFr.steakbeet, "23 tnd"),
           //       SizedBox(height: height / 50),
           //       Row(
           //         children: [
@@ -192,7 +192,7 @@ class _HistorytabsState extends State<Historytabs> {
       ),
       child: Center(
         child: Text(
-          LanguageEn.complete,
+          LanguageFr.complete,
           style: TextStyle(
             color: notifier.getwhite,
             fontSize: height / 60,

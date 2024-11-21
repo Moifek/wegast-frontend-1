@@ -39,6 +39,7 @@ class Attributes {
   String? createdAt;
   String? updatedAt;
   String? publishedAt;
+  int? deliveryFee;
   Item? item;
   RestaurantImage? restaurantImage;
 
@@ -51,6 +52,7 @@ class Attributes {
     this.publishedAt,
     this.item,
     this.restaurantImage,
+    this.deliveryFee,
   });
 
   Attributes.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,7 @@ class Attributes {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     publishedAt = json['publishedAt'];
+    deliveryFee = json['deliveryFee'];
     item = json['item'] != null ? new Item.fromJson(json['item']) : null;
     restaurantImage = json['Image'] != null
         ? new RestaurantImage.fromJson(json['Image'])

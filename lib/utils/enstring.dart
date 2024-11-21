@@ -396,6 +396,8 @@ class LanguageEn {
 }
 
 class LanguageFr {
+  static String get nearbyRestaurant => "Restaurant prôches";
+
   static String get getstarted => "Commencer";
 
   static String get findyourfavoritefoodanytime =>

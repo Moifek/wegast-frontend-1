@@ -244,18 +244,26 @@ class _OnbondingState extends State<Onbonding> {
     return list;
   }
 
+  late SharedPreferences _prefs;
   late bool isLoading;
 
+  bool _isKeySet = false;
   @override
   void initState() {
+    _initializeSharedPreferences();
     getdarkmodepreviousstate();
     isLoading = true;
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
+        _isKeySet = _prefs.getBool('skipIntro') ?? false;
         isLoading = false;
       });
     });
     super.initState();
+  }
+
+  Future<void> _initializeSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
   Widget _indicator(bool isActive) {
@@ -434,6 +442,7 @@ class _OnbondingState extends State<Onbonding> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
+                                    _prefs.setBool('skipIntro', true);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -469,6 +478,7 @@ class _OnbondingState extends State<Onbonding> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    _prefs.setBool('skipIntro', true);
                                     _pageController.nextPage(
                                         duration:
                                             const Duration(microseconds: 300),
@@ -511,6 +521,7 @@ class _OnbondingState extends State<Onbonding> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
+                                    _prefs.setBool('skipIntro', true);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -550,9 +561,7 @@ class _OnbondingState extends State<Onbonding> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const PhoneNumber()
-                                          // const SelectLogin(),
-                                          ),
+                                              const PhoneNumber()),
                                     );
                                   },
                                   child: Container(

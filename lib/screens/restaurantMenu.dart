@@ -35,11 +35,11 @@ class restaurantMenuState extends State<restaurantMenu>
   }
 
   final List<String> tabNames = [];
+  final List<ItemData> items = [];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
     getdarkmodepreviousstate();
     fetchCategories(widget.restaurantName!);
   }
@@ -50,8 +50,12 @@ class restaurantMenuState extends State<restaurantMenu>
     setState(() {
       tabNames.clear();
       tabNames.addAll(data.map((item) => item.attributes.name));
-      _tabController = TabController(length: tabNames.length, vsync: this);
     });
+  }
+
+  fetchItemsPerCategory(String restaurantName, String Category) async {
+    var tmp = await ApiCalls().fetchItems(restaurantName, Category);
+    var data = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
   }
 
   int selectedindex = -1;
@@ -86,12 +90,6 @@ class restaurantMenuState extends State<restaurantMenu>
     'Dessert',
   ];
 
-  List<CusttomFoodIteam> foodItems = [
-    CusttomFoodIteam("assets/pizzachicago.jpg", LanguageFr.cheesy),
-    CusttomFoodIteam("assets/Salad.png", LanguageFr.margarita),
-    CusttomFoodIteam("assets/pizzachicago.jpg", LanguageFr.sevenchess),
-    CusttomFoodIteam("assets/Salad.png", LanguageFr.calzne),
-  ];
   bool like = false;
   bool count = false;
   bool counttwo = false;
@@ -352,8 +350,9 @@ class restaurantMenuState extends State<restaurantMenu>
                             SizedBox(
                               height: height / 1.1,
                               child: TabBarView(
-                                children:
-                                    tabNames.map((_) => tabbarview()).toList(),
+                                children: tabNames
+                                    .map((tabName) => tabbarview(tabName))
+                                    .toList(),
                               ),
                             ),
                           ],
@@ -564,7 +563,7 @@ class restaurantMenuState extends State<restaurantMenu>
     );
   }
 
-  Widget tabbarview() {
+  Widget tabbarview(String category) {
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
       child: Column(
@@ -637,7 +636,7 @@ class restaurantMenuState extends State<restaurantMenu>
                 ),
               ),
               SizedBox(width: width / 40),
-              /*GestureDetector(
+              GestureDetector(
                 onTap: () {
                   filtershowmodelbottomsheet();
                 },
@@ -656,70 +655,86 @@ class restaurantMenuState extends State<restaurantMenu>
                     size: height / 35,
                   ),
                 ),
-              ),*/
+              ),
               SizedBox(width: width / 20),
             ],
           ),
-          if (hide == true)
-            Container(
-                color: Colors.transparent,
-                child: Container(
-                  color: Colors.transparent,
-                  height: height,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+          FutureBuilder<dynamic>(
+            future: fetchItemsPerCategory(widget.restaurantName!, category),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              print(snapshot);
+              if (snapshot.hasError) {
+                return Center(child: Text("Failed to load food items."));
+              }
+
+              List<ItemData> foodItems = items ?? [];
+              int itemsPerRow = 3;
+              List<List<ItemData>> rows = [];
+
+              // Split foodItems list into chunks of 'itemsPerRow' size
+              for (int i = 0; i < foodItems.length; i += itemsPerRow) {
+                rows.add(foodItems.sublist(
+                    i,
+                    i + itemsPerRow > foodItems.length
+                        ? foodItems.length
+                        : i + itemsPerRow));
+              }
+              return hide
+                  ? Container(
+                      color: Colors.transparent,
+                      height: height,
+                      child: Column(
                         children: [
-                          SizedBox(width: width / 20),
-                          CusttomGriadeFoodIteam(
-                              "assets/pizzachicago.jpg", LanguageFr.cheesy),
-                          SizedBox(width: width / 20),
-                          CusttomGriadeFoodIteam(
-                              "assets/pizzachicago.jpg", LanguageFr.sevenchess),
-                          SizedBox(width: width / 20),
+                          ...rows.map((rowItems) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: height / 50),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(width: width / 20),
+                                  ...rowItems.map((item) {
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: width / 40),
+                                      child: CusttomGriadeFoodIteam(
+                                          "assets/pizzachicago.jpg",
+                                          item.attributes.name),
+                                    );
+                                  }).toList(),
+                                  SizedBox(width: width / 20),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          SizedBox(height: height / 2.8),
                         ],
                       ),
-                      SizedBox(height: height / 50),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: width / 20),
-                          CusttomGriadeFoodIteam(
-                              "assets/pizzachicago.jpg", LanguageFr.calzne),
-                          SizedBox(width: width / 20),
-                          CusttomGriadeFoodIteam(
-                              "assets/pizzachicago.jpg", LanguageFr.margarita),
-                          SizedBox(width: width / 20),
-                        ],
+                    )
+                  : Container(
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: foodItems.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == foodItems.length) {
+                            return SizedBox(height: height / 5);
+                          }
+                          final foodItem = foodItems[index];
+                          return Column(
+                            children: [
+                              SizedBox(height: height / 100),
+                              CusttomFoodIteam("assets/pizzachicago.jpg",
+                                  foodItem.attributes.name),
+                            ],
+                          );
+                        },
                       ),
-                      SizedBox(height: height / 50),
-                      SizedBox(height: height / 2.8),
-                    ],
-                  ),
-                ))
-          else
-            Container(
-              color: Colors.transparent,
-              child: ListView.builder(
-                shrinkWrap: true, // To fit the ListView inside a Column
-                itemCount: foodItems.length +
-                    1, // Add 1 for the extra SizedBox at the end
-                itemBuilder: (context, index) {
-                  if (index == foodItems.length) {
-                    return SizedBox(
-                        height: height / 5); // Extra spacing at the end
-                  }
-                  final foodItem = foodItems[index];
-                  return Column(
-                    children: [
-                      SizedBox(height: height / 100),
-                      CusttomFoodIteam(foodItem.image, foodItem.name),
-                    ],
-                  );
-                },
-              ),
-            )
+                    );
+            },
+          )
         ],
       ),
     );

@@ -26,20 +26,10 @@ class _PhoneNumberState extends State<PhoneNumber> {
   final TextEditingController passwordController = TextEditingController();
   final List<Map> _myjson = [
     {
-      'id': '2',
+      'id': '1',
       'image': 'assets/flagfour.png.png',
-      'Text': "+92",
+      'Text': "+216",
     },
-    {
-      'id': '3',
-      'image': 'assets/flagthree.jpg',
-      'Text': "+93",
-    },
-    {
-      'id': '5',
-      'image': 'assets/flagfive.png',
-      'Text': "+95",
-    }
   ];
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
@@ -78,7 +68,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                       children: [
                         SizedBox(width: width / 20),
                         Text(
-                          LanguageEn.signin,
+                          LanguageFr.signin,
                           style: TextStyle(
                             color: notifier.getblackcolor,
                             fontSize: height / 25,
@@ -92,7 +82,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                       children: [
                         SizedBox(width: width / 20),
                         Text(
-                          LanguageEn.welcometowegast,
+                          LanguageFr.welcometowegast,
                           style: TextStyle(
                             color: notifier.getblackcolor,
                             fontSize: height / 42,
@@ -140,7 +130,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
               children: [
                 SizedBox(width: width / 20),
                 Text(
-                  LanguageEn.password,
+                  LanguageFr.password,
                   style: TextStyle(
                     color: notifier.getgrey,
                     fontSize: height / 50,
@@ -155,7 +145,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
               child: TextField(
                 controller: passwordController,
                 decoration: InputDecoration(
-                  hintText: LanguageEn.enteryourpassword,
+                  hintText: LanguageFr.enteryourpassword,
                   prefixIcon: Icon(Icons.lock, color: notifier.getblackcolor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -204,7 +194,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 //       );
                 //     },
                 //     child: Text(
-                //       LanguageEn.forgotpassword,
+                //       LanguageFr.forgotpassword,
                 //       style: TextStyle(
                 //         fontSize: height / 55,
                 //         color: const Color(0xff3a71d5),
@@ -221,7 +211,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
             //     authbutton(
             //       const Color(0xff3a71d5),
             //       Colors.white,
-            //       LanguageEn.facebook,
+            //       LanguageFr.facebook,
             //       width / 2.3,
             //       "assets/facebook.png",
             //     ),
@@ -233,7 +223,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
             //       child: authbutton(
             //         const Color(0xff323337),
             //         Colors.white,
-            //         LanguageEn.apple,
+            //         LanguageFr.apple,
             //         width / 2.3,
             //         "assets/apple.png",
             //       ),
@@ -256,7 +246,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                   child: button(
                     notifier.getred,
                     notifier.getwhite,
-                    LanguageEn.signin,
+                    LanguageFr.signin,
                     width / 1.1,
                   ),
                 );
@@ -267,7 +257,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  LanguageEn.donothaveaccount,
+                  LanguageFr.donothaveaccount,
                   style: TextStyle(
                     color: notifier.getgrey,
                     fontFamily: 'GilroyMedium',
@@ -284,7 +274,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     );
                   },
                   child: Text(
-                    LanguageEn.signup,
+                    LanguageFr.signup,
                     style: TextStyle(
                       color: const Color(0xff3a71d5),
                       fontFamily: 'GilroyMedium',
@@ -321,7 +311,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     ),
                     SizedBox(height: height / 35),
                     Text(
-                      LanguageEn.continuewithfaceid,
+                      LanguageFr.continuewithfaceid,
                       style: TextStyle(
                           color: notifier.getblackcolor,
                           fontFamily: 'GilroyBold',
@@ -329,7 +319,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     ),
                     SizedBox(height: height / 150),
                     Text(
-                      LanguageEn.usefaceidtounlockcarr,
+                      LanguageFr.usefaceidtounlockcarr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: notifier.getgrey,
@@ -344,7 +334,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                       child: button(
                         notifier.getred,
                         notifier.getwhite,
-                        LanguageEn.cancel,
+                        LanguageFr.cancel,
                         width / 2,
                       ),
                     )
@@ -409,7 +399,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                   children: [
                     SizedBox(height: height / 130),
                     Text(
-                      LanguageEn.loginwithphonenumber,
+                      LanguageFr.loginwithphonenumber,
                       style: TextStyle(
                         color: notifier.getgrey,
                         fontSize: height / 60,
@@ -427,7 +417,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     ),
                     SizedBox(height: height / 50),
                     Text(
-                      LanguageEn.wewillsend,
+                      LanguageFr.wewillsend,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: notifier.getgrey,
@@ -444,7 +434,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                             Navigator.pop(context);
                           },
                           child: dailogbutton(Colors.transparent,
-                              LanguageEn.cancel, notifier.getred),
+                              LanguageFr.cancel, notifier.getred),
                         ),
                         SizedBox(width: width / 30),
                         GestureDetector(
@@ -457,7 +447,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                               ),
                             );
                           },
-                          child: dailogbutton(notifier.getred, LanguageEn.next,
+                          child: dailogbutton(notifier.getred, LanguageFr.next,
                               notifier.getwhite),
                         ),
                       ],
@@ -565,7 +555,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                       fontSize: height / 50,
                       fontFamily: 'GilroyMedium'),
                   border: InputBorder.none,
-                  hintText: LanguageEn.enteryournumber),
+                  hintText: LanguageFr.enteryournumber),
             ),
           ),
         ],

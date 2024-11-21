@@ -45,7 +45,9 @@ class _OrderConformationState extends State<OrderConformation> {
     try {
       final orderIds =
           ordersController.orders.map((order) => order.id).toList();
-      await apiCalls.validateAllOrders(orderIds, 1);
+      if (orderIds.length > 0) {
+        await apiCalls.validateAllOrders(orderIds as List<int>, 1);
+      }
     } catch (e) {
       print(e);
     }
@@ -65,14 +67,14 @@ class _OrderConformationState extends State<OrderConformation> {
         backgroundColor: notifier.getwhite,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(Icons.arrow_back_ios,
               color: notifier.getblackcolor, size: height / 50),
         ),
         centerTitle: true,
         title: Text(
-          LanguageEn.orderconfirmation,
+          LanguageFr.orderconfirmation,
           style: TextStyle(
             color: notifier.getblackcolor,
             fontSize: height / 40,
@@ -108,7 +110,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         children: [
                           SizedBox(height: height / 70),
                           Text(
-                            LanguageEn.deliveryto,
+                            LanguageFr.deliveryto,
                             style: TextStyle(
                                 color: notifier.getgrey,
                                 fontFamily: 'GilroyMedium',
@@ -142,7 +144,7 @@ class _OrderConformationState extends State<OrderConformation> {
               children: [
                 SizedBox(width: width / 20),
                 Text(
-                  LanguageEn.yourorder,
+                  LanguageFr.yourorder,
                   style: TextStyle(
                       color: notifier.getgrey,
                       fontFamily: 'GilroyBold',
@@ -163,7 +165,7 @@ class _OrderConformationState extends State<OrderConformation> {
               final orders = ordersController.orders;
               final subtotal = orders.fold<double>(
                 0.0,
-                (sum, order) => sum + order.attributes.totalPrice,
+                (sum, order) => sum + order.attributes!.totalPrice!,
               );
               final deliveryCharges = 2.0;
               final total = subtotal + deliveryCharges;
@@ -179,7 +181,7 @@ class _OrderConformationState extends State<OrderConformation> {
                       itemBuilder: (context, index) {
                         final order = orders[index];
                         final formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss')
-                            .format(order.attributes.createdAt);
+                            .format(order.attributes!.createdAt!);
 
                         return Card(
                           elevation: 5,
@@ -203,7 +205,7 @@ class _OrderConformationState extends State<OrderConformation> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Total Price: ${order.attributes.totalPrice} ${order.attributes.currency}',
+                                  'Total Price: ${order.attributes?.totalPrice} ${order.attributes?.currency}',
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 16,
@@ -218,7 +220,7 @@ class _OrderConformationState extends State<OrderConformation> {
                                   ),
                                 ),
                                 Text(
-                                  'Order Status: ${order.attributes.orderStatus}',
+                                  'Order Status: ${order.attributes?.orderStatus}',
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 14,
@@ -369,7 +371,7 @@ class _OrderConformationState extends State<OrderConformation> {
                       children: [
                         SizedBox(width: width / 2.4),
                         Text(
-                          LanguageEn.payment,
+                          LanguageFr.payment,
                           style: TextStyle(
                               color: notifier.getblackcolor,
                               fontSize: height / 47,
@@ -395,7 +397,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         );
                       },
                       child: chashtype(
-                        LanguageEn.cash,
+                        LanguageFr.cash,
                         "assets/cash.png",
                         height / 29,
                         0,
@@ -421,7 +423,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         );
                       },
                       child: chashtype(
-                        LanguageEn.cardvisa,
+                        LanguageFr.cardvisa,
                         "assets/visa.png",
                         height / 32,
                         1,
@@ -447,7 +449,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         );
                       },
                       child: chashtype(
-                        LanguageEn.cardmaster,
+                        LanguageFr.cardmaster,
                         "assets/master.png",
                         height / 20,
                         2,
@@ -473,7 +475,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         );
                       },
                       child: chashtype(
-                        LanguageEn.yummywallet,
+                        LanguageFr.yummywallet,
                         "assets/yummy.png",
                         height / 25,
                         3,
@@ -512,7 +514,7 @@ class _OrderConformationState extends State<OrderConformation> {
                         ),
                         child: Center(
                           child: Text(
-                            LanguageEn.completeorder,
+                            LanguageFr.completeorder,
                             style: TextStyle(
                               color: notifier.getwhite,
                               fontFamily: 'GilroyMedium',

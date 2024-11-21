@@ -1,34 +1,42 @@
 class UserModel {
-  final int id;
-  final String username;
-  final String email;
-  final String provider;
-  final bool confirmed;
-  final bool blocked;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int? id;
+  final String? username;
+  final String? email;
+  final String? provider;
+  final bool? confirmed;
+  final bool? blocked;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? phoneNumber;
 
   UserModel({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.provider,
-    required this.confirmed,
-    required this.blocked,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.username,
+    this.email,
+    this.provider,
+    this.confirmed,
+    this.blocked,
+    this.createdAt,
+    this.updatedAt,
+    this.phoneNumber,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    final attributes = json['attributes'] ?? json;
     return UserModel(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      provider: json['provider'],
-      confirmed: json['confirmed'],
-      blocked: json['blocked'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      id: attributes['id'] as int?,
+      username: attributes['username'],
+      email: attributes['email'],
+      provider: attributes['provider'],
+      confirmed: attributes['confirmed'],
+      blocked: attributes['blocked'],
+      phoneNumber: attributes['PhoneNumber'] as int?,
+      createdAt: attributes['createdAt'] != null
+          ? DateTime.tryParse(attributes['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(attributes['updatedAt'])
+          : null,
     );
   }
 
@@ -40,8 +48,9 @@ class UserModel {
       'provider': provider,
       'confirmed': confirmed,
       'blocked': blocked,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      'PhoneNumber': phoneNumber,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 }
