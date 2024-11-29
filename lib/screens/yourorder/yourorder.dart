@@ -45,7 +45,7 @@ class _YourOrderState extends State<YourOrder> {
         backgroundColor: notifier.getwhite,
         leading: GestureDetector(
           onTap: () {
-            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
+            Get.offNamedUntil('/home', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(Icons.arrow_back_ios,
               color: Colors.black, size: height / 40),

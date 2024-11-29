@@ -45,7 +45,7 @@ class _RecommendedSeeallState extends State<RecommendedSeeall> {
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            Get.offNamedUntil('/', (Route<dynamic> route) => route.isFirst);
+            Get.offNamedUntil('/home', (Route<dynamic> route) => route.isFirst);
           },
           child: Icon(
             Icons.arrow_back_ios,

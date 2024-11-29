@@ -53,9 +53,25 @@ class restaurantMenuState extends State<restaurantMenu>
     });
   }
 
-  fetchItemsPerCategory(String restaurantName, String Category) async {
-    var tmp = await ApiCalls().fetchItems(restaurantName, Category);
-    var data = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
+  Future<List<ItemData>> fetchItemsPerCategory(
+      String restaurantName, String category) async {
+    try {
+      print("Fetching items for category: $category");
+      final response = await ApiCalls().fetchItems(restaurantName, category);
+
+      // Ensure the response is a List before processing
+      if (response is List) {
+        return response.map((e) => ItemData.fromJson(e)).toList();
+      } else {
+        throw Exception("Unexpected response format: ${response.runtimeType}");
+      }
+    } catch (error, stackTrace) {
+      // Log errors for debugging purposes
+      print("Error fetching items: $error");
+      print(stackTrace);
+      // Return an empty list on failure
+      return [];
+    }
   }
 
   int selectedindex = -1;
@@ -659,79 +675,73 @@ class restaurantMenuState extends State<restaurantMenu>
               SizedBox(width: width / 20),
             ],
           ),
-          FutureBuilder<dynamic>(
+          FutureBuilder<List<ItemData>>(
             future: fetchItemsPerCategory(widget.restaurantName!, category),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               }
-              print(snapshot);
+
               if (snapshot.hasError) {
                 return Center(child: Text("Failed to load food items."));
               }
 
-              List<ItemData> foodItems = items ?? [];
+              // Use the snapshot data directly
+              final foodItems = snapshot.data ?? [];
               int itemsPerRow = 3;
-              List<List<ItemData>> rows = [];
 
-              // Split foodItems list into chunks of 'itemsPerRow' size
-              for (int i = 0; i < foodItems.length; i += itemsPerRow) {
-                rows.add(foodItems.sublist(
-                    i,
-                    i + itemsPerRow > foodItems.length
-                        ? foodItems.length
-                        : i + itemsPerRow));
-              }
+              // Split foodItems into chunks for grid layout
+              final rows = List.generate(
+                (foodItems.length / itemsPerRow).ceil(),
+                (i) =>
+                    foodItems.skip(i * itemsPerRow).take(itemsPerRow).toList(),
+              );
               return hide
                   ? Container(
                       color: Colors.transparent,
                       height: height,
                       child: Column(
                         children: [
-                          ...rows.map((rowItems) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: height / 50),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(width: width / 20),
-                                  ...rowItems.map((item) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 40),
-                                      child: CusttomGriadeFoodIteam(
-                                          "assets/pizzachicago.jpg",
-                                          item.attributes.name),
-                                    );
-                                  }).toList(),
-                                  SizedBox(width: width / 20),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                          ...rows.map((rowItems) => Padding(
+                                padding: EdgeInsets.only(bottom: height / 50),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(width: width / 20),
+                                    ...rowItems.map((item) => Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width / 40),
+                                          child: CusttomGriadeFoodIteam(
+                                            "assets/pizzachicago.jpg",
+                                            item.attributes.name,
+                                          ),
+                                        )),
+                                    SizedBox(width: width / 20),
+                                  ],
+                                ),
+                              )),
                           SizedBox(height: height / 2.8),
                         ],
                       ),
                     )
-                  : Container(
-                      color: Colors.transparent,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: foodItems.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == foodItems.length) {
-                            return SizedBox(height: height / 5);
-                          }
-                          final foodItem = foodItems[index];
-                          return Column(
-                            children: [
-                              SizedBox(height: height / 100),
-                              CusttomFoodIteam("assets/pizzachicago.jpg",
-                                  foodItem.attributes.name),
-                            ],
-                          );
-                        },
-                      ),
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: foodItems.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == foodItems.length) {
+                          return SizedBox(height: height / 5);
+                        }
+                        final foodItem = foodItems[index];
+                        return Column(
+                          children: [
+                            SizedBox(height: height / 100),
+                            CusttomFoodIteam(
+                              "assets/pizzachicago.jpg",
+                              foodItem.attributes.name,
+                            ),
+                          ],
+                        );
+                      },
                     );
             },
           )
