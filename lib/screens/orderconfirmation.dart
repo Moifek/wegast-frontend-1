@@ -161,7 +161,7 @@ class _OrderConformationState extends State<OrderConformation> {
               } else if (ordersController.hasError.value) {
                 return Center(child: Text('Failed to fetch orders'));
               }
-
+              //TODO: calculate order ammount
               final orders = ordersController.orders;
               final subtotal = orders.fold<double>(
                 0.0,

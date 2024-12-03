@@ -54,6 +54,7 @@ class OrderAttributes {
   final DateTime? updatedAt;
   final DateTime? publishedAt;
   final Restaurant? restaurant;
+  // final OrderItems? orderItems;
   final UserModel? user;
   final DasherProfile? dasherProfile;
 
@@ -66,12 +67,12 @@ class OrderAttributes {
     this.updatedAt,
     this.publishedAt,
     this.restaurant,
+    // this.orderItems,
     this.user,
     this.dasherProfile,
   });
 
   factory OrderAttributes.fromJson(Map<String, dynamic> json) {
-    print(json);
     return OrderAttributes(
       discount: json['Discount'] as int?,
       totalPrice: (json['TotalPrice'] as num?)?.toDouble(),
@@ -87,8 +88,11 @@ class OrderAttributes {
       restaurant: json['restaurant']?['data'] != null
           ? Restaurant.fromJson(json['restaurant']['data'])
           : null,
-      user: json['users_permissions_user']?['data'] != null
-          ? UserModel.fromJson(json['users_permissions_user']['data'])
+      //TODO:// orderItems: json['OrderItems']?['data'] != null
+      //     ? Restaurant.fromJson(json['OrderItems']['data'])
+      //     : null,
+      user: json['user']?['data'] != null
+          ? UserModel.fromJson(json['user']['data'])
           : null,
       dasherProfile: json['dasher_profile']?['data'] != null
           ? DasherProfile.fromJson(json['dasher_profile']['data'])
@@ -106,7 +110,7 @@ class OrderAttributes {
       'updatedAt': updatedAt?.toIso8601String(),
       'publishedAt': publishedAt?.toIso8601String(),
       'restaurant': restaurant?.toJson(),
-      'users_permissions_user': user?.toJson(),
+      'user': user?.toJson(),
       'dasher_profile': dasherProfile?.toJson(),
     };
   }

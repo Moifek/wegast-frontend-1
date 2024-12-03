@@ -57,7 +57,7 @@ class Attributes {
 
   Attributes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['Name'];
+    name = json['Name'].toString().toUpperCase();
     email = json['Email'];
     phoneNumber = json['PhoneNumber'];
     createdAt = json['createdAt'];

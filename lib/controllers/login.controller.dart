@@ -32,7 +32,7 @@ class LoginController extends GetxController {
           final UserController userController = Get.find();
           UserModel loggedInUser = UserModel.fromJson(data['user']);
           userController.setUser(loggedInUser);
-
+          userController.setToken(jwt);
           await fetchUserRole(jwt);
         } else {
           Get.snackbar('Error', 'Invalid credentials');

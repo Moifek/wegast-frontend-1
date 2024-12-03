@@ -9,6 +9,7 @@ import 'package:wegast/models/user_model.dart';
 
 class OrdersController extends GetxController {
   var orders = <OrderData>[].obs;
+  var personalOrders = <OrderData>[].obs;
   var isLoading = true.obs;
   var hasError = false.obs;
   final UserController userController = Get.find();
@@ -19,21 +20,54 @@ class OrdersController extends GetxController {
   void onInit() {
     super.onInit();
     fetchOrders();
+    fetchPersonalOrders();
   }
 
   Future<void> fetchOrders() async {
     isLoading(true);
     hasError(false);
     try {
-      final response =
-          await http.get(Uri.parse(baseUrl + 'api/orders?populate=*'));
+      final response = await http.get(
+          Uri.parse(baseUrl +
+              'api/orders?populate=*&filters[\$and][0][\$or][0][dasher_profile][id][\$eq]=1' +
+              '&filters[\$and][0][\$or][1][OrderStatus][\$ne]=initialized' +
+              '&sort[0]=OrderStatus:desc&sort[1]=createdAt:desc'),
+          headers: {'Authorization': 'Bearer ${userController.token}'});
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         final ordersResponse = OrdersResponse.fromJson(
           data,
         );
+        print(data);
         orders.assignAll(ordersResponse!.data!);
+      } else {
+        hasError(true);
+        print('Errors: ${response.statusCode}');
+      }
+    } catch (e) {
+      hasError(true);
+      print('Exception: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> fetchPersonalOrders() async {
+    isLoading(true);
+    hasError(false);
+    try {
+      final response = await http.get(
+          Uri.parse(baseUrl +
+              'api/orders?populate=*&filters[user][id][\$eq]=${userController.user.value.id}&filters[OrderStatus][\$ne]=finalized'),
+          headers: {'Authorization': 'Bearer ${userController.token}'});
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final ordersResponse = OrdersResponse.fromJson(
+          data,
+        );
+        personalOrders.assignAll(ordersResponse!.data!);
       } else {
         hasError(true);
         print('Errors: ${response.statusCode}');
@@ -114,11 +148,12 @@ class OrdersController extends GetxController {
         Uri.parse(baseUrl + 'api/order/finalize'),
         body: jsonEncode({
           'id': orderId,
-          'dasherId': userController.user.value.id,
+          //TODO: dasher profile ID, relation from userController.user.value.dasherProfile.id
+          'dasherId': 1,
         }),
         headers: {'Content-Type': 'application/json'},
       );
-
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final updatedOrder =
             OrderData.fromJson(jsonDecode(response.body)['data']);

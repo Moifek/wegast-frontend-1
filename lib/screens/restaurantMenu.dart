@@ -24,61 +24,88 @@ class restaurantMenuState extends State<restaurantMenu>
     with TickerProviderStateMixin {
   late ColorNotifier notifier;
   late TabController _tabController;
-  getdarkmodepreviousstate() async {
-    final prefs = await SharedPreferences.getInstance();
-    bool? previusstate = prefs.getBool("setIsDark");
-    if (previusstate == null) {
-      notifier.setIsDark = false;
-    } else {
-      notifier.setIsDark = previusstate;
-    }
-  }
 
   final List<String> tabNames = [];
   final List<ItemData> items = [];
 
+  late Future<List<ItemData>> _futureCategories;
+  Map<String, Future<List<ItemData>>> _itemsCache = {};
+
+  int selectedIndex = -1;
+  String dropdownValue = 'Best match';
+  String filterByDropdownValue = 'Open';
+  double _currentSliderValue = 10;
+  bool hide = false;
+
+  // Dummy data for UI
+  var filterByItems = ['Open', 'Close'];
+  List locationList = ["Nabeul", "near me"];
+  List img = ['assets/location-pin.png', 'assets/stopwatch.png'];
+  List text = ['254m', '27'];
+  List food = ['assets/idli.png', 'assets/supcup.png', 'assets/juice.png'];
+  List foodName = ['Pizza', 'Drink', 'Dessert'];
   @override
   void initState() {
     super.initState();
-    getdarkmodepreviousstate();
-    fetchCategories(widget.restaurantName!);
+
+    // Initialize shared preferences and categories
+    _initStateData();
   }
 
-  fetchCategories(String restaurantName) async {
-    var tmp = await ApiCalls().fetchCategories(restaurantName);
-    var data = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
-    setState(() {
-      tabNames.clear();
-      tabNames.addAll(data.map((item) => item.attributes.name));
-    });
+  Future<void> _initStateData() async {
+    await _getDarkModePreviousState();
+    _futureCategories = fetchCategories(widget.restaurantName!);
+  }
+
+  Future<void> _getDarkModePreviousState() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? previousState = prefs.getBool("setIsDark");
+    notifier.setIsDark = previousState ?? false;
+  }
+
+  Future<List<ItemData>> fetchCategories(String restaurantName) async {
+    try {
+      final response = await ApiCalls().fetchCategories(restaurantName);
+      final data = (response as List).map((e) => ItemData.fromJson(e)).toList();
+      setState(() {
+        tabNames.clear();
+        tabNames.addAll(data.map((item) => item.attributes.name));
+      });
+      return data;
+    } catch (error) {
+      print("Error fetching categories: $error");
+      return [];
+    }
   }
 
   Future<List<ItemData>> fetchItemsPerCategory(
+      String restaurantName, String category) {
+    // Cache category fetch results to avoid redundant API calls
+    if (!_itemsCache.containsKey(category)) {
+      _itemsCache[category] = _fetchItems(restaurantName, category);
+    }
+    return _itemsCache[category]!;
+  }
+
+  Future<List<ItemData>> _fetchItems(
       String restaurantName, String category) async {
     try {
-      print("Fetching items for category: $category");
       final response = await ApiCalls().fetchItems(restaurantName, category);
-
-      // Ensure the response is a List before processing
       if (response is List) {
         return response.map((e) => ItemData.fromJson(e)).toList();
       } else {
         throw Exception("Unexpected response format: ${response.runtimeType}");
       }
-    } catch (error, stackTrace) {
-      // Log errors for debugging purposes
-      print("Error fetching items: $error");
-      print(stackTrace);
-      // Return an empty list on failure
+    } catch (error) {
+      print("Error fetching items for $category: $error");
       return [];
     }
   }
 
   int selectedindex = -1;
   String dropdownvalue = 'Best match';
-  String filterbydropdownvalue = 'Open';
-  double _currentSliderValue = 20;
-  bool hide = false;
+  String filterbydropdownvalue = 'Ouvrir';
+
   var filterbyitems = [
     'Open',
     'Close',
@@ -87,25 +114,11 @@ class restaurantMenuState extends State<restaurantMenu>
     "Nabeul",
     "near me",
   ];
-  List img = [
-    'assets/location-pin.png',
-    'assets/stopwatch.png',
-  ];
-  List text = [
-    '254m',
-    '27',
-  ];
-  List food = [
-    'assets/idli.png',
-    'assets/supcup.png',
-    'assets/juice.png',
-  ];
   List foodname = [
     'Pizza',
     'Drink',
     'Dessert',
   ];
-
   bool like = false;
   bool count = false;
   bool counttwo = false;
@@ -491,46 +504,6 @@ class restaurantMenuState extends State<restaurantMenu>
                     SizedBox(
                       height: height / 70,
                     ),
-                    Container(
-                      height: height / 15,
-                      width: width / 1.22,
-                      decoration: BoxDecoration(
-                        color: notifier.getbgfildcolor,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: DropdownButton(
-                        dropdownColor: notifier.getbgfildcolor,
-                        underline: const SizedBox(),
-                        value: filterbydropdownvalue,
-                        icon: Row(
-                          children: [
-                            SizedBox(width: width / 1.7),
-                            const Icon(Icons.keyboard_arrow_down),
-                          ],
-                        ),
-                        items: filterbyitems.map((String filterbyitems) {
-                          return DropdownMenuItem(
-                            value: filterbyitems,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: width / 40),
-                              child: Text(
-                                filterbyitems,
-                                style: TextStyle(
-                                    color: notifier.getblackcolor,
-                                    fontSize: height / 50),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            filterbydropdownvalue = newValue!;
-                          });
-                        },
-                      ),
-                    ),
                     SizedBox(height: height / 35),
                     Row(
                       children: [
@@ -587,41 +560,6 @@ class restaurantMenuState extends State<restaurantMenu>
           Row(
             children: [
               SizedBox(width: width / 20),
-              /*Container(
-                height: height / 20,
-                width: width / 3.4,
-                decoration: BoxDecoration(
-                  color: notifier.getbgfildcolor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: DropdownButton(
-                  dropdownColor: notifier.getbgfildcolor,
-                  underline: const SizedBox(),
-                  value: dropdownvalue,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  items: items.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: width / 50),
-                        child: Text(
-                          items,
-                          style: TextStyle(
-                              color: notifier.getblackcolor,
-                              fontSize: height / 60),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                ),
-              ),*/
               const Spacer(),
               GestureDetector(
                 onTap: () {
@@ -714,6 +652,9 @@ class restaurantMenuState extends State<restaurantMenu>
                                           child: CusttomGriadeFoodIteam(
                                             "assets/pizzachicago.jpg",
                                             item.attributes.name,
+                                            item.attributes.description
+                                                .toString(),
+                                            item.attributes.price,
                                           ),
                                         )),
                                     SizedBox(width: width / 20),
@@ -738,6 +679,9 @@ class restaurantMenuState extends State<restaurantMenu>
                             CusttomFoodIteam(
                               "assets/pizzachicago.jpg",
                               foodItem.attributes.name,
+                              foodItem
+                                  .attributes.description[0].children[0].text,
+                              foodItem.attributes.price,
                             ),
                           ],
                         );

@@ -27,7 +27,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
 
   Future<void> fetchOrders() async {
     print('fetching orders');
-    await ordersController.fetchOrders();
+    await ordersController.fetchPersonalOrders();
   }
 
   getdarkmodepreviousstate() async {
@@ -45,7 +45,7 @@ class _DeliverytabsState extends State<Deliverytabs> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     notifier = Provider.of<ColorNotifier>(context, listen: true);
-    final orders = ordersController.orders;
+    final orders = ordersController.personalOrders;
     return Scaffold(
       backgroundColor: notifier.getwhite,
       body: FutureBuilder<void>(

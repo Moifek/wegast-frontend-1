@@ -22,12 +22,13 @@ class ApiCalls {
 
   fetchItems(String restaurantName, String category) async {
     try {
+      restaurantName = restaurantName.toLowerCase();
+      category = category.toLowerCase();
       final response = await http.get(Uri.parse(baseUrl +
-          "api/items?populate=*&restaurants.name=" +
+          "api/items?populate=*&filters[restaurant][Name][\$eq]=" +
           restaurantName +
-          "&item_category.name=" +
+          "&filters[item_category][Name][\$eq]=" +
           category));
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body)['data'];
         return data;
@@ -41,11 +42,13 @@ class ApiCalls {
 
   fetchCategories(String restaurantName) async {
     try {
-      final response = await http.get(Uri.parse(
-          baseUrl + "api/item-categories?restaurants.name=" + restaurantName));
+      restaurantName = restaurantName.toLowerCase();
+      final response = await http.get(Uri.parse(baseUrl +
+          'api/item-categories?filters[restaurants][Name][\$eq]=' +
+          restaurantName +
+          '&populate=*'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body)['data'];
-
         return data;
       } else {
         throw Exception('Failed to load items');

@@ -9,7 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CusttomFoodIteam extends StatefulWidget {
   final String? image;
   final String? name;
-  const CusttomFoodIteam(this.image, this.name, {Key? key}) : super(key: key);
+  final String? description;
+  final int price;
+  const CusttomFoodIteam(this.image, this.name, this.description, this.price,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<CusttomFoodIteam> createState() => _CusttomFoodIteamState();
@@ -78,22 +82,25 @@ class _CusttomFoodIteamState extends State<CusttomFoodIteam> {
               ),
               SizedBox(height: height / 200),
               Text(
-                LanguageFr.shrimponion,
+                widget.description!,
                 style: TextStyle(
                   color: notifier.getgrey,
                   fontSize: height / 60,
                   fontFamily: 'GilroyMedium',
                 ),
+                maxLines: 1, // Limit the text to one line
+                overflow:
+                    TextOverflow.ellipsis, // Add ellipsis if the text overflows
               ),
               SizedBox(height: height / 200),
               Row(
                 children: [
                   Text(
-                    "8 tnd",
+                    widget.price!.toString() + 'TND',
                     style: TextStyle(
                       color: notifier.getred,
                       fontFamily: 'GilroyExtraBold',
-                      fontSize: height / 45,
+                      fontSize: height / 60,
                     ),
                   ),
                   SizedBox(width: width / 2.4),
@@ -144,27 +151,6 @@ class _CusttomFoodIteamState extends State<CusttomFoodIteam> {
                 Column(
                   children: [
                     SizedBox(height: height / 40),
-                    Row(
-                      children: [
-                        SizedBox(width: width / 2.4),
-                        Text(
-                          LanguageFr.adnew,
-                          style: TextStyle(
-                              color: notifier.getblackcolor,
-                              fontSize: height / 47,
-                              fontFamily: "GilroyBold"),
-                        ),
-                        SizedBox(width: width / 3.5),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.clear,
-                              color: notifier.getblackcolor, size: height / 40),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: height / 30),
                     Row(
                       children: [
                         SizedBox(width: width / 25),

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:wegast/models/user_model.dart';
 
 class UserController extends GetxController {
+  var token = '';
+
   var user = UserModel(
     id: 0,
     username: '',
@@ -17,6 +19,10 @@ class UserController extends GetxController {
 
   void setUser(UserModel userModel) {
     user.value = userModel;
+  }
+
+  void setToken(String token) {
+    this.token = token;
   }
 
   void logout() {

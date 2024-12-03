@@ -181,65 +181,73 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     SizedBox(height: height / 40),
-                    Row(
-                      children: [
-                        SizedBox(width: width / 20),
-                        Text(
-                          LanguageFr.explorecategories,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: height / 45,
-                              fontFamily: 'GilroyBold'),
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Categories(),
-                              ),
-                            ),
-                          },
-                          child: Text(
-                            LanguageFr.showall,
+                    AbsorbPointer(
+                      absorbing: true,
+                      child: Row(
+                        children: [
+                          SizedBox(width: width / 20),
+                          Text(
+                            LanguageFr.explorecategories,
                             style: TextStyle(
-                                color: notifier.getred,
-                                fontSize: height / 55,
-                                fontFamily: 'GilroyMedium'),
+                                color: Colors.black,
+                                fontSize: height / 45,
+                                fontFamily: 'GilroyBold'),
                           ),
-                        ),
-                        SizedBox(width: width / 18),
-                      ],
-                    ),
-                    SizedBox(height: height / 100),
-                    Container(
-                      color: Colors.transparent,
-                      height: height / 5,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 1,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              SizedBox(width: width / 20),
-                              ExploreCategories(
-                                  "assets/f1.png", 'Makloub', height / 9),
-                              SizedBox(width: width / 60),
-                              ExploreCategories(
-                                  "assets/f2.png", 'Hamburger', height / 9),
-                              SizedBox(width: width / 60),
-                              ExploreCategories(
-                                  "assets/f3.png", 'Pizza', height / 9),
-                              SizedBox(width: width / 60),
-                              ExploreCategories("assets/pizza.png",
-                                  LanguageFr.shake, height / 9),
-                              SizedBox(width: width / 60),
-                            ],
-                          );
-                        },
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Categories(),
+                                ),
+                              ),
+                            },
+                            child: Text(
+                              LanguageFr.showall,
+                              style: TextStyle(
+                                  color: notifier.getred,
+                                  fontSize: height / 55,
+                                  fontFamily: 'GilroyMedium'),
+                            ),
+                          ),
+                          SizedBox(width: width / 18),
+                        ],
                       ),
                     ),
+
+                    SizedBox(height: height / 100),
+                    AbsorbPointer(
+                      absorbing: true,
+                      child: Container(
+                        color: Colors.transparent,
+                        height: height / 5,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                SizedBox(width: width / 20),
+                                ExploreCategories(
+                                    "assets/f1.png", 'Makloub', height / 9),
+                                SizedBox(width: width / 60),
+                                ExploreCategories(
+                                    "assets/f2.png", 'Hamburger', height / 9),
+                                SizedBox(width: width / 60),
+                                ExploreCategories(
+                                    "assets/f3.png", 'Pizza', height / 9),
+                                SizedBox(width: width / 60),
+                                ExploreCategories("assets/pizza.png",
+                                    LanguageFr.shake, height / 9),
+                                SizedBox(width: width / 60),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
                     SizedBox(height: height / 55),
                     // Near by Restorent
                     Row(
