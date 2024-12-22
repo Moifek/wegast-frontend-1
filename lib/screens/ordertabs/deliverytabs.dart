@@ -26,7 +26,6 @@ class _DeliverytabsState extends State<Deliverytabs> {
   }
 
   Future<void> fetchOrders() async {
-    print('fetching orders');
     await ordersController.fetchPersonalOrders();
   }
 

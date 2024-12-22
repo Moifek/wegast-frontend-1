@@ -1,14 +1,15 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:wegast/controllers/user_controller.dart';
+import 'package:wegast/models/items_models.dart';
 import 'package:wegast/models/orders_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:wegast/models/user_model.dart';
+import 'package:wegast/web_services.dart';
 
 class OrdersController extends GetxController {
   var orders = <OrderData>[].obs;
+  var orderItems = <ItemData>[].obs;
   var personalOrders = <OrderData>[].obs;
   var isLoading = true.obs;
   var hasError = false.obs;
@@ -17,19 +18,43 @@ class OrdersController extends GetxController {
   final String baseUrl = dotenv.env['BASE_URL'] ?? '';
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchOrders();
-    fetchPersonalOrders();
+    await fetchOrders();
+    orderItems.value = [];
+    // await fetchPersonalOrders();
+  }
+
+  Future<void> fetchOrderItems(int? orderId) async {
+    try {
+      isLoading(true);
+      orderItems.clear();
+
+      if (orderId != null && orderId >= 0 && orderId < orders.length) {
+        for (var item in orders[orderId].attributes!.orderItems!) {
+          final ItemData? data = await ApiCalls().fetchItemById(item);
+          if (data != null) {
+            orderItems.add(data);
+          }
+        }
+      }
+    } catch (e) {
+      print('Error fetching order items: $e');
+    } finally {
+      isLoading(false);
+    }
   }
 
   Future<void> fetchOrders() async {
     isLoading(true);
     hasError(false);
     try {
+      if (userController.fullUser.value.dasherProfile == null)
+        throw ('ERROR: NO DASHER');
       final response = await http.get(
           Uri.parse(baseUrl +
-              'api/orders?populate=*&filters[\$and][0][\$or][0][dasher_profile][id][\$eq]=1' +
+              'api/orders?populate=*&filters[\$and][0][\$or][0][dasher_profile][id][\$eq]=' +
+              userController.fullUser.value.dasherProfile!.id.toString() +
               '&filters[\$and][0][\$or][1][OrderStatus][\$ne]=initialized' +
               '&sort[0]=OrderStatus:desc&sort[1]=createdAt:desc'),
           headers: {'Authorization': 'Bearer ${userController.token}'});
@@ -39,11 +64,10 @@ class OrdersController extends GetxController {
         final ordersResponse = OrdersResponse.fromJson(
           data,
         );
-        print(data);
         orders.assignAll(ordersResponse!.data!);
       } else {
         hasError(true);
-        print('Errors: ${response.statusCode}');
+        print('Errors: ${response}');
       }
     } catch (e) {
       hasError(true);
@@ -118,7 +142,7 @@ class OrdersController extends GetxController {
         Uri.parse(baseUrl + 'api/order/take'),
         body: jsonEncode({
           'id': orderId,
-          'userId': userController.user.value.id,
+          'userId': userController.fullUser.value.id,
         }),
         headers: {'Content-Type': 'application/json'},
       );
@@ -148,12 +172,10 @@ class OrdersController extends GetxController {
         Uri.parse(baseUrl + 'api/order/finalize'),
         body: jsonEncode({
           'id': orderId,
-          //TODO: dasher profile ID, relation from userController.user.value.dasherProfile.id
-          'dasherId': 1,
+          'dasherId': userController.fullUser.value.id,
         }),
         headers: {'Content-Type': 'application/json'},
       );
-      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final updatedOrder =
             OrderData.fromJson(jsonDecode(response.body)['data']);
@@ -175,11 +197,12 @@ class OrdersController extends GetxController {
   List<OrderData> get orderPlacedOrders {
     return orders
         .where((order) => true)
-        //.where((order) => order.attributes?.orderStatus == 'orderPlaced')
+        // .where((order) => order.attributes?.orderStatus == 'orderPlaced')
         .toList();
   }
+
 //TODO: Add active order
-  /*OrderData get activeOrder {
-    return orders.where((order) => order).toList();
-  }*/
+  // OrderData get activeOrder {
+  //   return orders.where((order) => order.attributes).toList();
+  // }
 }

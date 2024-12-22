@@ -11,7 +11,7 @@ class DasherScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dasher Orders'),
+        title: Text('Commandes du coursier'),
         actions: [
           IconButton(
             onPressed: () {
@@ -34,7 +34,7 @@ class DasherScreen extends StatelessWidget {
             ordersController.orderPlacedOrders;
 
         if (visibleOrders.isEmpty) {
-          return Center(child: Text('No orders available.'));
+          return Center(child: Text('Pas de Commandes pour le moment.'));
         }
 
         return ListView.builder(
@@ -68,6 +68,7 @@ class DasherScreen extends StatelessWidget {
                 ],
               ),
               onTap: () {
+                ordersController.fetchOrderItems(order.value!.id);
                 Get.to(() => OrderDetailsScreen(order: order.value));
               },
             );

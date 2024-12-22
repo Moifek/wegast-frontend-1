@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
   handleItems() async {
     var tmp;
     //TODO:
-    //tmp = await ApiCalls().fetchItems();
+    // tmp = await ApiCalls().fetchItems();
     items.value = (tmp as List).map((e) => ItemData.fromJson(e)).toList();
   }
 

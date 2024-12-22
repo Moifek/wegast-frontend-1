@@ -26,14 +26,24 @@ class LoginController extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        final token = jsonDecode(response.body)['jwt'];
+        final userFullModelResponse = await http.get(
+          Uri.parse(baseUrl + 'api/users/me?populate=*'),
+          headers: {
+            'Authorization': 'Bearer ${token}',
+            'Content-Type': 'application/json',
+          },
+        );
         var data = jsonDecode(response.body);
-        if (data['jwt'] != null) {
-          final String jwt = data['jwt'];
+        var fullData = jsonDecode(userFullModelResponse.body);
+        if (token != null) {
           final UserController userController = Get.find();
-          UserModel loggedInUser = UserModel.fromJson(data['user']);
+          UserModel loggedInUser = UserModel.fromJson(data);
+          UserFullModel LoggedInUserDetailed = UserFullModel.fromJson(fullData);
           userController.setUser(loggedInUser);
-          userController.setToken(jwt);
-          await fetchUserRole(jwt);
+          userController.setFullUser(LoggedInUserDetailed);
+          userController.setToken(token);
+          await fetchUserRole(token);
         } else {
           Get.snackbar('Error', 'Invalid credentials');
         }

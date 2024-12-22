@@ -9,7 +9,9 @@ class OrdersResponse {
 
   factory OrdersResponse.fromJson(Map<String, dynamic> json) {
     return OrdersResponse(
-      data: (json['data'] as List?)?.map((i) => OrderData.fromJson(i)).toList(),
+      data: (json['data'] as List?)
+          ?.map((i) => OrderData.fromJson(i as Map<String, dynamic>))
+          .toList(),
       meta: json['meta'] != null ? Meta.fromJson(json['meta']) : null,
     );
   }
@@ -30,9 +32,9 @@ class OrderData {
 
   factory OrderData.fromJson(Map<String, dynamic> json) {
     return OrderData(
-      id: json['id'],
+      id: json['id'] as int?,
       attributes: json['attributes'] != null
-          ? OrderAttributes.fromJson(json['attributes'])
+          ? OrderAttributes.fromJson(json['attributes'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -41,6 +43,38 @@ class OrderData {
     return {
       'id': id,
       'attributes': attributes?.toJson(),
+    };
+  }
+}
+
+class OrderItems {
+  final int id;
+  final int quantity;
+  final double price;
+  final String? comment;
+
+  OrderItems({
+    required this.id,
+    required this.quantity,
+    required this.price,
+    this.comment,
+  });
+
+  factory OrderItems.fromJson(Map<String, dynamic> json) {
+    return OrderItems(
+      id: json['id'] as int,
+      quantity: json['Quantity'] as int,
+      price: (json['Price'] as num).toDouble(),
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'Quantity': quantity,
+      'Price': price,
+      'Comment': comment,
     };
   }
 }
@@ -54,9 +88,9 @@ class OrderAttributes {
   final DateTime? updatedAt;
   final DateTime? publishedAt;
   final Restaurant? restaurant;
-  // final OrderItems? orderItems;
   final UserModel? user;
   final DasherProfile? dasherProfile;
+  final List<OrderItems>? orderItems;
 
   OrderAttributes({
     this.discount,
@@ -67,35 +101,39 @@ class OrderAttributes {
     this.updatedAt,
     this.publishedAt,
     this.restaurant,
-    // this.orderItems,
     this.user,
     this.dasherProfile,
+    this.orderItems,
   });
 
   factory OrderAttributes.fromJson(Map<String, dynamic> json) {
     return OrderAttributes(
       discount: json['Discount'] as int?,
       totalPrice: (json['TotalPrice'] as num?)?.toDouble(),
-      currency: json['Currency'] as String? ?? '',
-      orderStatus: json['OrderStatus'] as String? ?? '',
-      createdAt:
-          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt:
-          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      currency: json['Currency'] as String?,
+      orderStatus: json['OrderStatus'] as String?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'])
+          : null,
       publishedAt: json['publishedAt'] != null
-          ? DateTime.parse(json['publishedAt'])
+          ? DateTime.tryParse(json['publishedAt'])
           : null,
       restaurant: json['restaurant']?['data'] != null
           ? Restaurant.fromJson(json['restaurant']['data'])
           : null,
-      //TODO:// orderItems: json['OrderItems']?['data'] != null
-      //     ? Restaurant.fromJson(json['OrderItems']['data'])
-      //     : null,
       user: json['user']?['data'] != null
           ? UserModel.fromJson(json['user']['data'])
           : null,
       dasherProfile: json['dasher_profile']?['data'] != null
           ? DasherProfile.fromJson(json['dasher_profile']['data'])
+          : null,
+      orderItems: json['OrderItems'] != null
+          ? (json['OrderItems'] as List)
+              .map((item) => OrderItems.fromJson(item))
+              .toList()
           : null,
     );
   }
@@ -112,6 +150,7 @@ class OrderAttributes {
       'restaurant': restaurant?.toJson(),
       'user': user?.toJson(),
       'dasher_profile': dasherProfile?.toJson(),
+      'OrderItems': orderItems?.map((item) => item.toJson()).toList(),
     };
   }
 }
@@ -124,9 +163,10 @@ class DasherProfile {
 
   factory DasherProfile.fromJson(Map<String, dynamic> json) {
     return DasherProfile(
-      id: json['id'],
+      id: json['id'] as int?,
       attributes: json['attributes'] != null
-          ? DasherAttributes.fromJson(json['attributes'])
+          ? DasherAttributes.fromJson(
+              json['attributes'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -160,15 +200,17 @@ class DasherAttributes {
 
   factory DasherAttributes.fromJson(Map<String, dynamic> json) {
     return DasherAttributes(
-      displayName: json['DisplayName'] ?? '',
+      displayName: json['DisplayName'] as String?,
       distanceTraveled: (json['DistanceTraveled'] as num?)?.toDouble(),
       payPerDistance: (json['PayPerDistance'] as num?)?.toDouble(),
       isActive: json['IsActive'] as bool?,
       balance: (json['Balance'] as num?)?.toDouble(),
-      createdAt:
-          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt:
-          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'])
+          : null,
     );
   }
 
@@ -193,7 +235,7 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> json) {
     return Meta(
       pagination: json['pagination'] != null
-          ? Pagination.fromJson(json['pagination'])
+          ? Pagination.fromJson(json['pagination'] as Map<String, dynamic>)
           : null,
     );
   }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:wegast/models/items_models.dart';
+import 'package:wegast/models/orders_model.dart';
 
 class ApiCalls {
   static final String baseUrl = dotenv.env['BASE_URL'] ?? '';
@@ -36,6 +38,23 @@ class ApiCalls {
         throw Exception('Failed to load items');
       }
     } catch (e) {
+      return null;
+    }
+  }
+
+  Future<ItemData?> fetchItemById(OrderItems item) async {
+    try {
+      final response = await http
+          .get(Uri.parse(baseUrl + 'api/items/${item.id - 1}?populate=*'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'];
+        return ItemData.fromJson(data);
+      }
+
+      // If no item is successfully fetched
+      throw Exception('Failed to load any items');
+    } catch (e) {
+      print('Error fetching item: $e');
       return null;
     }
   }
